@@ -1,0 +1,14 @@
+function greets () {
+ console.log('Hello!');
+ greets = function () {
+   console.log('Bye!');
+   return greets;
+ };
+ return greets;
+}
+
+greets(); //stampa Hello! e riporta function
+
+greets()(); //stampa Bye! e riporta function
+
+greets()()(); //come sopra
