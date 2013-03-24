@@ -11,10 +11,13 @@ var values = ['goofy', 'scrooge'];
 
 function select(data, key, values){
 	var out = [];
-	for (obj in data){
+	//for (obj in data){
+	data.forEach(function(obj){
 		console.log(data[obj][key]);
 		if (values.some(function(item, index, array){ return item === data[obj][key]; }))
 			out.push(data[obj]);
-	}
+	});
 	return out;
 }
+
+vedere 419489
