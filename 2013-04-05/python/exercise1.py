@@ -1,6 +1,7 @@
 #Andrea Iuliano
 from pyplasm import *
 
+#Global variables
 z_pillar0 = 2.5
 r_pillar0 = 0.25/2
 l_pillar0 = 0.25
@@ -9,6 +10,12 @@ dist_circle_to_square_x = 1.46675
 dist_pillar0_y = 5.32
 dist_pillar0_square_1 = 1.067
 dist_pillar0_square_2 = 2.79
+
+first_floor_z = 0.3905
+dist_pillar1_up_circle = 8.25
+dist_pillar1_up_square = 11
+l_pillar1_small = 0.2
+dist_pillar1_small = 1.46
 
 
 #Support functions
@@ -22,27 +29,51 @@ def circle(r):
 def extrude(obj,z):
 	return PROD([obj, Q(z)])
 
-def trasla(coord,values,obj):
+def traslate(coord,values,obj):
 	return T(coord)(values)(obj)
 
+def traslateVector(coord,values):
+	return T(coord)(values)
+
 #Draw a first circle pillar
-pillar_circle_model_2D = T([1,2])([r_pillar0, r_pillar0])(circle(r_pillar0))
+pillar_circle_model_2D = traslate([1,2],[r_pillar0, r_pillar0],circle(r_pillar0))
 pillar_circle_model = extrude(pillar_circle_model_2D,z_pillar0) 
 
-pillar0_below = STRUCT([pillar_circle_model, STRUCT(NN(4)([T([1])([dist_pillar0_x]),pillar_circle_model])) ])
-
-circolar_pillar_0_up = T([2])([dist_pillar0_y])(pillar_circle_model)
-
-circolar_pillar_0 = STRUCT([circolar_pillar_0_up, pillar0_below])
+pillar0_below = STRUCT( [pillar_circle_model, STRUCT(NN(4)([ traslateVector( [1], [dist_pillar0_x]), pillar_circle_model ])) ])
 
 square_pillar_model = CUBOID([l_pillar0,l_pillar0,z_pillar0])
-square_pillars_part = STRUCT(NN(3)([square_pillar_model, T([1])([dist_pillar0_square_2])]))
-square_pillars_centered = STRUCT([square_pillar_model, T([1])([dist_pillar0_square_1])(square_pillars_part)])
-square_pillars0 = T([1,2])([dist_circle_to_square_x,dist_pillar0_y])(square_pillars_centered)
 
-pillars0 = STRUCT([square_pillars0,circolar_pillar_0])
+pillar0_up_three_square = STRUCT(NN(3)([ traslateVector( [1], [dist_pillar0_x]), square_pillar_model]))
+
+piller0_up_small = traslate([1],[dist_circle_to_square_x],square_pillar_model)
+
+pillar0_up_centered = STRUCT( [pillar_circle_model,pillar0_up_three_square,piller0_up_small] )
+
+pillars0 = STRUCT([pillar0_below, traslate([2],[dist_pillar0_y],pillar0_up_centered)])
+
+
+#Draw pillar1
+pillar1_below = STRUCT([square_pillar_model, STRUCT(NN(4)([traslateVector([1],[dist_pillar0_x]),square_pillar_model])) ])
+
+pillar1_up_1 = STRUCT( [square_pillar_model, STRUCT(NN(2)([traslateVector([1],[dist_pillar0_x]),square_pillar_model]))] )
+pillar1_up_2 = STRUCT( [pillar1_up_1, traslate([1], dist_pillar1_up_circle, pillar_circle_model),traslate([1], dist_pillar1_up_square, square_pillar_model)] )
+
+square_pillar_model_small = CUBOID([l_pillar1_small,l_pillar1_small,z_pillar0])
+
+pillar1_up = STRUCT([pillar1_up_2, traslate([1],[dist_pillar1_small],square_pillar_model_small)])
+
+pillar1_up = traslate([2],[dist_pillar0_y],pillar1_up)
+
+
+pillars1 = traslate([3],[z_pillar0+first_floor_z],STRUCT([pillar1_below, pillar1_up]))
+
+
+#Draw pillar2
 
 
 
 
-VIEW(pillars0)
+
+building = STRUCT([pillars0, pillars1])
+
+VIEW(building)
