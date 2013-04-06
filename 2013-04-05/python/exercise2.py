@@ -191,14 +191,24 @@ floor1_balcony = traslate([1,2],[-floor1_balcony_x,floor1_balcony_trasl_y], CUBO
 floor1 = traslate([3],[floor1_z],STRUCT([floor1_r1,floor1_r2,floor1_r3, floor1_balcony]))
 
 
+#Draw floor2
+floor2_z = 2*z_pillar0 + floor_z
+
+
+trapezium = extrude(MKPOL([[[5.47,0],[11.25,0],[11.25,6.75],[4.51,6.75],[4.51,5.32]],[[1,2,3,4,5]],None]),floor_z)
+
+
+floor2_r_x = 0.816901408
+floor2_r_y = 6.687
+
+floor2_r = CUBOID([floor2_r_x,floor2_r_y,floor_z])
 
 
 
+floor2 = traslate([3],[floor2_z],STRUCT([trapezium,floor2_r]))
 
 
-
-
-
+#Draw floor4
 
 floor4_trasl_z = 4*z_pillar0 + 3*first_floor_z
 
@@ -223,6 +233,6 @@ floor4 = STRUCT([floor4_r1, floor4_r2])
 
 
 
-building = STRUCT([model_base, traslateVector([3],[base_z]), floor0, pillars0, floor1, pillars1, pillars2, pillars3, traslate([3],[floor4_trasl_z],floor4)])
+building = STRUCT([model_base, traslateVector([3],[base_z]), floor0, pillars0, floor1, pillars1, floor2, pillars2, pillars3, traslate([3],[floor4_trasl_z],floor4)])
 
 VIEW(building)
