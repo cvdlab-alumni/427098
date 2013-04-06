@@ -389,32 +389,75 @@ south_face_r3_z= 5.9
 south_face_r4_y= 6.648
 south_face_r4_z= 0.307
 
-floor1_balcony_x = 1.135
-floor1_balcony_y = 1.067
-floor1_balcony_trasl_y = floor1_r1_trasl_y
+south_face_r5_y= 1.25
+south_face_r5_z= 3.58
+south_face_r5_transl_y= 5.445
+south_face_r5_transl_z= 2.32
+
+south_face_r6_y= 4.944
+south_face_r6_z= 1.124
+south_face_r6_transl_y= 0.245
+south_face_r6_transl_z= 4.76
 
 
 south_face_r1 = traslate([2],[south_face_r1_transl_y] ,CUBOID([south_face_x,south_face_r1_y,south_face_r1_z]))
 south_face_r2 = traslate([3],[south_face_r2_transl_z] ,CUBOID([south_face_x,south_face_r2_y,south_face_r2_z]))
 south_face_r3 = CUBOID([south_face_x,south_face_r3_y,south_face_r3_z])
 south_face_r4 = CUBOID([south_face_x,south_face_r4_y,south_face_r4_z])
-south_face_balcony = CUBOID([south_face_x,south_face_r4_y,south_face_r4_z])
+south_face_r5 = traslate([2,3],[south_face_r5_transl_y,south_face_r5_transl_z] ,CUBOID([south_face_x,south_face_r5_y,south_face_r5_z]))
+south_face_r6 = traslate([2,3],[south_face_r6_transl_y,south_face_r6_transl_z] ,CUBOID([south_face_x,south_face_r6_y,south_face_r6_z]))
 
 
 
 
-south = traslate([3],[south_face_z],STRUCT([south_face_r1,south_face_r2,south_face_r3,south_face_r4]))
+south = traslate([3],[south_face_z],STRUCT([south_face_r1,south_face_r2,south_face_r3,south_face_r4,south_face_r5,south_face_r6]))
 
 
-floor1_balcony_x = 1.135
-floor1_balcony_y = 1.067
-floor1_balcony_trasl_y = floor1_r1_trasl_y
+#west
+#muro piano terra
+muro_princ = CUBOID([7.16,0.25,2.5])
+muro_princ_trasl = traslate([2],[6.50],muro_princ)
 
-floor1_r1 = traslate([2],[floor1_r1_trasl_y], CUBOID([floor1_r1_x,floor1_r1_y,floor_z]))
-floor1_r2 = CUBOID([floor1_r2_x,floor1_r2_y,floor_z])
-floor1_r3 = traslate([1,2],[floor1_r3_trasl_x,floor1_r3_trasl_y], CUBOID([floor1_r3_x,floor1_r3_y,floor_z]))
-floor1_balcony = traslate([1,2],[-floor1_balcony_x,floor1_balcony_trasl_y], CUBOID([floor1_balcony_x,floor1_balcony_y,floor_z]))
+muro_basso_finestra = CUBOID([0.84,0.25,1.66])
+mbf_trasl = traslate([1,2],[7.16,6.50],muro_basso_finestra)
 
+muro_lato_fin = CUBOID([0.5,0.25,2.5])
+mlf_trasl = traslate([1,2],[8,6.50],muro_lato_fin)
+
+#muro primo piano
+
+muro_des = CUBOID([5.12,0.25,2.5])
+muro_des_trasl= traslate([2,3],[6.50,2.5+0.39],muro_des)
+
+muro_s_fin = CUBOID([1.23*2,0.25,1.27])
+msf_trasl = traslate([1,2,3],[5.12,6.50,2.5+0.39],muro_s_fin)
+
+muro_sin = CUBOID([3.67,0.25,2.5])
+ms_trasl = traslate([1,2,3],[7.58,6.50,2.5+0.39],muro_sin)
+
+#muro secondo piano
+muro_des_2 = CUBOID([8.91,0.25,2.5])
+md2_trasl = traslate([2,3],[6.50,(2.5+0.39)*2],muro_des_2)
+
+#muro terzo piano
+muro_t = CUBOID([11.25,0.25,2.5])
+mt_trasl = traslate([2,3],[6.50,(2.5+0.39)*3],muro_t)
+
+muro_basso_fin2 = CUBOID([0.26,0.25,1.26])
+mbf2_trasl = traslate([1,2,3],[8.91,6.50,(2.5+0.39)*2],muro_basso_fin2)
+
+muro_tra_fin = CUBOID([0.25,0.25,2.5])
+mtf_trasl = traslate([1,2,3],[9.17,6.50,(2.5+0.39)*2],muro_tra_fin)
+
+#muro sotto seconda finestra
+mssf_trasl = traslate([1,2,3],[9.42,6.50,(2.5+0.39)*2],muro_basso_fin2)
+
+muro_sin_fin = CUBOID([1.57,0.25,2.5])
+msin_fin_trasl = traslate([1,2,3],[9.67,6.50,(2.5+0.39)*2],muro_sin_fin)
+
+west = STRUCT([muro_princ_trasl,mbf_trasl, mlf_trasl, muro_des_trasl,msf_trasl,ms_trasl,md2_trasl,mbf2_trasl,mtf_trasl,mssf_trasl,msin_fin_trasl,mt_trasl])
+
+west = traslate([2,3],[-0.08, 0.5],west)
 
 
 #floor0 wall
@@ -476,6 +519,6 @@ wall_floor0 = STRUCT([floor0_r1,floor0_r2,floor0_r3,floor0_semicirc1,floor0_semi
 
 
 
-building = STRUCT([model_base, traslateVector([3],[base_z]), wall_floor0,floor0, pillars0, floor1, pillars1, floor2, pillars2, floor3, pillars3, traslate([3],[floor4_trasl_z],floor4), east, north,south])
+building = STRUCT([model_base, traslateVector([3],[base_z]), wall_floor0,floor0, pillars0, floor1, pillars1, floor2, pillars2, floor3, pillars3, traslate([3],[floor4_trasl_z],floor4), east, north,south, west])
 
 VIEW(building)
