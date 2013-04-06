@@ -110,6 +110,8 @@ def semicircle(r):
 def rotate(coord,values,obj):
 	return R(coord)(values)(obj)
 
+def scale(coord,values,obj):
+	return S(coord)(values)(obj)
 
 base_x = 11.25
 base_y = 6.7557
@@ -363,11 +365,11 @@ n_11_fragment = traslate([1],[dist_btw_lboarder_win+w_windows_n+dist_btw_win_lwi
 #n_face
 north_face = STRUCT([n_1_fragment,n_2_fragment,n_3_fragment,n_4_fragment,n_5_fragment,n_6_fragment,n_7_fragment,n_8_fragment,n_9_fragment,n_10_fragment,n_11_fragment])
 #z_translation
-north = T([3])([z_pillar0- floor_z ])(north_face)
-north = S([3])([1.2])(north)
-north = S([1])([0.91])(north)
-north = R([1,2])(PI/2)(north)
-north = T([1])([11.25])(north)
+north = traslate([3],[z_pillar0- floor_z ],north_face)
+north = scale([3],[1.2],north)
+north = scale([1],[0.91],north)
+north = rotate([1,2],PI/2,north)
+north = traslate([1],[11.25],north)
 
 #sud
 wall_depth = 0.25

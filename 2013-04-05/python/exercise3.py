@@ -110,6 +110,9 @@ def semicircle(r):
 def rotate(coord,values,obj):
 	return R(coord)(values)(obj)
 
+def scale(coord,values,obj):
+	return S(coord)(values)(obj)
+
 
 base_x = 11.25
 base_y = 6.7557
@@ -332,7 +335,6 @@ dist_btw_fst_snd_windows = 1.411
 dist_btw_snd_trd_windows = 1.35
 dist_btw_win_lwin = 0.9
 dist_btw_lwin_lboarder = 0.25
-###building north face###
 n_1_fragment = CUBOID([dist_btw_win_lwin,depth_walls,h_total_north_face])
 #
 n_2_fragment = CUBOID([w_windows_n,depth_walls,dist_btw_top_boarder_top_win])
@@ -349,7 +351,6 @@ n_10_fragment = CUBOID([w_little_windows_n,depth_walls,dist_btw_lwin_top_boarder
 #
 n_11_fragment = CUBOID([dist_btw_win_lwin,depth_walls,h_total_north_face])
 
-#Traslation of fragments#
 n_2_fragment = traslate([1,3],[dist_btw_lboarder_win,2*dist_btw_snd_trd_windows+3*h_windows_n+dist_btw_fst_snd_windows],n_2_fragment)
 n_3_fragment = traslate([1,3],[dist_btw_lboarder_win,2*dist_btw_snd_trd_windows+2*h_windows_n],n_3_fragment)
 n_4_fragment = traslate([1,3],[dist_btw_lboarder_win,dist_btw_snd_trd_windows+h_windows_n],n_4_fragment)
@@ -360,14 +361,14 @@ n_8_fragment = traslate([1,3],[dist_btw_lboarder_win+w_windows_n+dist_btw_win_lw
 n_9_fragment = traslate([1,3],[dist_btw_lboarder_win+w_windows_n+dist_btw_win_lwin,h_little_windows_n+dist_btw_lwins],n_9_fragment)
 n_10_fragment = traslate([1],[dist_btw_lboarder_win+w_windows_n+dist_btw_win_lwin],n_10_fragment)
 n_11_fragment = traslate([1],[dist_btw_lboarder_win+w_windows_n+dist_btw_win_lwin+w_little_windows_n],n_11_fragment)
-#n_face
+
 north_face = STRUCT([n_1_fragment,n_2_fragment,n_3_fragment,n_4_fragment,n_5_fragment,n_6_fragment,n_7_fragment,n_8_fragment,n_9_fragment,n_10_fragment,n_11_fragment])
-#z_translation
-north = T([3])([z_pillar0- floor_z ])(north_face)
-north = S([3])([1.2])(north)
-north = S([1])([0.91])(north)
-north = R([1,2])(PI/2)(north)
-north = T([1])([11.25])(north)
+
+north = traslate([3],[z_pillar0- floor_z ],north_face)
+north = scale([3],[1.2],north)
+north = scale([1],[0.91],north)
+north = rotate([1,2],PI/2,north)
+north = traslate([1],[11.25],north)
 
 #sud
 wall_depth = 0.25
@@ -413,8 +414,6 @@ south_face_r6 = traslate([2,3],[south_face_r6_transl_y,south_face_r6_transl_z] ,
 south = traslate([3],[south_face_z],STRUCT([south_face_r1,south_face_r2,south_face_r3,south_face_r4,south_face_r5,south_face_r6]))
 
 
-#west
-#muro piano terra
 muro_princ = CUBOID([7.16,0.25,2.5])
 muro_princ_trasl = traslate([2],[6.50],muro_princ)
 
@@ -424,7 +423,6 @@ mbf_trasl = traslate([1,2],[7.16,6.50],muro_basso_finestra)
 muro_lato_fin = CUBOID([0.5,0.25,2.5])
 mlf_trasl = traslate([1,2],[8,6.50],muro_lato_fin)
 
-#muro primo piano
 
 muro_des = CUBOID([5.12,0.25,2.5])
 muro_des_trasl= traslate([2,3],[6.50,2.5+0.39],muro_des)
@@ -435,11 +433,9 @@ msf_trasl = traslate([1,2,3],[5.12,6.50,2.5+0.39],muro_s_fin)
 muro_sin = CUBOID([3.67,0.25,2.5])
 ms_trasl = traslate([1,2,3],[7.58,6.50,2.5+0.39],muro_sin)
 
-#muro secondo piano
 muro_des_2 = CUBOID([8.91,0.25,2.5])
 md2_trasl = traslate([2,3],[6.50,(2.5+0.39)*2],muro_des_2)
 
-#muro terzo piano
 muro_t = CUBOID([11.25,0.25,2.5])
 mt_trasl = traslate([2,3],[6.50,(2.5+0.39)*3],muro_t)
 
@@ -449,7 +445,6 @@ mbf2_trasl = traslate([1,2,3],[8.91,6.50,(2.5+0.39)*2],muro_basso_fin2)
 muro_tra_fin = CUBOID([0.25,0.25,2.5])
 mtf_trasl = traslate([1,2,3],[9.17,6.50,(2.5+0.39)*2],muro_tra_fin)
 
-#muro sotto seconda finestra
 mssf_trasl = traslate([1,2,3],[9.42,6.50,(2.5+0.39)*2],muro_basso_fin2)
 
 muro_sin_fin = CUBOID([1.57,0.25,2.5])

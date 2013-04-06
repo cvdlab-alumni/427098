@@ -1,106 +1,5 @@
 //Andrea Iuliano
-/** Setup **/
 
-
-/* Creo funzionalità per implementare hideAll */
-var drawable_objects = [];
-
-function draw(obj){
-	drawable_objects.push(obj);
-	DRAW(obj);
-}
-
-
-function hide(obj){
-	drawable_objects = drawable_objects.filter( function(item){
-		return item !== obj;
-	});
-	HIDE(obj);
-}
-
-function hideAll(){
-	while(drawable_objects.length>0)
-		HIDE(drawable_objects.pop());	
-}
-
-/* Fine funzionalità hideAll */
-
-//Funzione che mi permette di inserire i colori in rgb con range [0,255]
-function rgb(color){
-	return [color[0]/255, color[1]/255, color[2]/255];
-}
-
-//Funzione che mi permette di inserire i colori in rgba con range [0,255]
-function rgba(color){
-	return [color[0]/255, color[1]/255, color[2]/255, color[3]/100];
-}
-
-
-/* Figure pronte (parametriche) */
-function arc_1D(alpha,r){
-	var domain = function(alfa,fragments){
-	   return DOMAIN([[0,alfa*PI]])([fragments]);
-	}
-
-	var circle = function (r) {
-	  return function (v) {
-	    return [r*COS(v[0]), r*SIN(v[0])];
-	  };
-	};
-
-	var mapping = circle(r);
-	var dom = domain(alpha,36);
-
-	return model = MAP(mapping)(dom);
-}
-
-function arc_2D(alpha,r,R){
-	var domain = DOMAIN([[0,alpha],[r,R]])([36,1]);
-
-	var mapping = function(v){
-		var a = v[0];
-		var r = v[1];
-
-		return [r*COS(a), r*SIN(a)];
-	}
-
-	var model = MAP(mapping)(domain);
-
-	return model;
-
-}
-
-/* Fine figure parametriche */
-
-
-
-/* Utility per convertire da pyplasm a plasm.js */
-function TPY(dimens,values,object){
-	new_dim = dimens.map(function(item){
-		return item-1;	
-	}); 
-	return T(new_dim)(values)(object);
-}
-
-function RPY(dimens,values,object){
-	new_dim = dimens.map(function(item){
-		return item-1;	
-	}); 
-	return R(new_dim)(values)(object);
-}
-
-
-function SPY(dimens,values,object){
-	new_dim = dimens.map(function(item){
-		return item-1;	
-	}); 
-	return S(new_dim)(values)(object);
-}
-/* Fine utility */
-
-
-
-/** Fine setup */ 
 //Global variables
 var z_pillar0 = 2.5;
 var r_pillar0 = 0.25/2;
@@ -545,20 +444,8 @@ south_face_r6 = traslate([2,3],[south_face_r6_transl_y,south_face_r6_transl_z] ,
 
 
 
-vetrata_y = 4.944
-vetrata_z = 2.019
-vetrata_trasl_y = 0.237
-vetrata_trasl_z = 0.3
 
-vetrata1 = COLOR([0,0,0])(traslate([2,3],[vetrata_trasl_y,vetrata_trasl_z] ,CUBOID([south_face_x,vetrata_y,vetrata_z])))
-
-vetrata2 = COLOR([0,0,0])(traslate([3],[2.45] ,vetrata1))
-
-vetrate = STRUCT([vetrata1,vetrata2 ])
-
-
-south = traslate([3],[south_face_z],STRUCT([south_face_r1,south_face_r2,south_face_r3,south_face_r4,south_face_r5,south_face_r6,vetrate]))
-
+south = traslate([3],[south_face_z],STRUCT([south_face_r1,south_face_r2,south_face_r3,south_face_r4,south_face_r5,south_face_r6]))
 
 
 muro_princ = CUBOID([7.16,0.25,2.5])
