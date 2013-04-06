@@ -117,18 +117,22 @@ var pillars3 = traslate([3],[3*z_pillar0 + 3*first_floor_z],STRUCT([pillars3_big
 
 //Start exercise 2
 
+// function semicircle(r){
+// 	var domain = DOMAIN([[0,PI],[1,1]])([36]);
+
+// 	var circ = function (r) {
+//  		return function (v) {
+//   			return [r*COS(v[0]), r*SIN(v[0])];
+//   		};
+// 	};
+
+// 	var mapping = circ(r);
+
+// 	return (MAP(mapping)(domain));
+// }
+
 function semicircle(r){
-	var domain = DOMAIN([0,PI])([36]);
-
-	var circ = function (r) {
- 		return function (v) {
-  			return [r*COS(v[0]), r*SIN(v[0])];
-  		};
-	};
-
-	var mapping = circ(r);
-
-	return (MAP(mapping)(domain));
+	return DISK(r)([30,1]);
 }
 
 function rotate(coord,values,obj){
