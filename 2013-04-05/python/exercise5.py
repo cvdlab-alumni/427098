@@ -1,6 +1,6 @@
 ### Exercise 5 
 
-#Incompleto
+#Incompleto, valori da rivedere
 
 max = 0.56
 min = 0.55

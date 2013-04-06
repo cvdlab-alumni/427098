@@ -218,23 +218,7 @@ var pillars3 = traslate([3],[3*z_pillar0 + 3*first_floor_z],STRUCT([pillars3_big
 
 //Start exercise 2
 
-// function semicircle(r){
-// 	var domain = DOMAIN([[0,PI],[1,1]])([36]);
 
-// 	var circ = function (r) {
-//  		return function (v) {
-//   			return [r*COS(v[0]), r*SIN(v[0])];
-//   		};
-// 	};
-
-// 	var mapping = circ(r);
-
-// 	return (MAP(mapping)(domain));
-// }
-
-function semicircle(r){
-	return DISK(r)([30,1]);
-}
 
 function rotate(coord,values,obj){
 	var new_coord = coord.map(function(item){
@@ -288,12 +272,12 @@ var model_base = CUBOID([base_x,base_y,base_z]);
 var floor0_r1 = traslate([2],[dist_pillar0_y],CUBOID([floor0_r1_x,floor0_r1_y,floor_z]));
 var floor0_r2 = traslate([1,2],[floor0_r2_trasl_x,floor0_r2_trasl_y],CUBOID([floor0_r2_x,floor0_r2_y,floor_z]));
 var floor0_r3 = traslate([1,2],[floor0_r3_trasl_x,floor0_r3_trasl_y],CUBOID([floor0_r3_x,floor0_r3_y,floor_z]));
-var semcirc_1_2D = semicircle(r_floor0_semcirc_1);
+var semcirc_1_2D = circle(r_floor0_semcirc_1);
 var semcirc_1 = traslate([2],[r_floor0_semcirc_1],rotate([1,2],-PI/2,extrude(semcirc_1_2D,floor_z)));
 var floor0_semicirc1 = traslate([1,2],[r_floor0_semcirc_1_trasl_x,r_floor0_semcirc_1_trasl_y],semcirc_1);
 var floor0_r4 = traslate([1,2],[floor0_r4_trasl_x,floor0_r4_trasl_y],CUBOID([floor0_r4_x,floor0_r4_y,floor_z]));
 
-var semcirc_2_2D = semicircle(r_floor0_semcirc_2);
+var semcirc_2_2D = circle(r_floor0_semcirc_2);
 var semcirc_2_centered = rotate([1,2],PI,extrude(semcirc_2_2D,floor_z));
 var semcirc_2 = traslate([1,2],[r_floor0_semcirc_2,r_floor0_semcirc_2],semcirc_2_centered);
 var floor0_semicirc2 = traslate([1,2],[r_floor0_semcirc_2_trasl_x,r_floor0_semcirc_2_trasl_y],semcirc_2);
@@ -626,12 +610,12 @@ model_base = CUBOID([base_x,base_y,base_z])
 floor0_r1 = traslate([2],[dist_pillar0_y],CUBOID([floor0_r1_x,floor0_r1_y,z_pillar0]))
 floor0_r2 = traslate([1,2],[floor0_r2_trasl_x,floor0_r2_trasl_y],CUBOID([floor0_r2_x,floor0_r2_y,z_pillar0]))
 floor0_r3 = traslate([1,2],[floor0_r3_trasl_x,floor0_r3_trasl_y],CUBOID([floor0_r3_x,floor0_r3_y,z_pillar0]))
-semcirc_1_2D = semicircle(r_floor0_semcirc_1)
+semcirc_1_2D = circle(r_floor0_semcirc_1)
 semcirc_1 = traslate([2],[r_floor0_semcirc_1],rotate([1,2],-PI/2,extrude(semcirc_1_2D,z_pillar0)))
 floor0_semicirc1 = traslate([1,2],[r_floor0_semcirc_1_trasl_x,r_floor0_semcirc_1_trasl_y],semcirc_1)
 floor0_r4 = traslate([1,2],[floor0_r4_trasl_x,floor0_r4_trasl_y],CUBOID([floor0_r4_x,floor0_r4_y,z_pillar0]))
 
-semcirc_2_2D = semicircle(r_floor0_semcirc_2)
+semcirc_2_2D = circle(r_floor0_semcirc_2)
 semcirc_2_centered = rotate([1,2],PI,extrude(semcirc_2_2D,z_pillar0))
 semcirc_2 = traslate([1,2],[r_floor0_semcirc_2,r_floor0_semcirc_2],semcirc_2_centered)
 floor0_semicirc2 = traslate([1,2],[r_floor0_semcirc_2_trasl_x,r_floor0_semcirc_2_trasl_y],semcirc_2)
