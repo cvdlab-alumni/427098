@@ -15,7 +15,7 @@ first_floor_z = 0.3905
 dist_pillar1_up_circle = 8.25
 dist_pillar1_up_square = 11
 l_pillar1_small = 0.2
-dist_pillar1_small = 1.46
+dist_pillar1_small = 0.73
 
 
 #Support functions

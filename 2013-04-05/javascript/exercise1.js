@@ -10,11 +10,13 @@ var dist_pillar0_y = 5.32;
 var dist_pillar0_square_1 = 1.067;
 var dist_pillar0_square_2 = 2.79;
 
+var dist_pillar1_x = 0.73;
+
 var first_floor_z = 0.3905;
 var dist_pillar1_up_circle = 8.25;
 var dist_pillar1_up_square = 11;
 var l_pillar1_small = 0.2;
-var dist_pillar1_small = 1.46;
+var dist_pillar1_small = 0.73;
 
 
 //Support functions
