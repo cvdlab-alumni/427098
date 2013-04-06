@@ -161,7 +161,6 @@ floor0_semicirc2 = traslate([1,2],[r_floor0_semcirc_2_trasl_x,r_floor0_semcirc_2
 
 floor0 = STRUCT([floor0_r1,floor0_r2,floor0_r3,floor0_semicirc1,floor0_semicirc2,floor0_r4])
 
-
 #Draw floor1
 
 floor1_z = z_pillar0
@@ -370,12 +369,113 @@ north = S([1])([0.91])(north)
 north = R([1,2])(PI/2)(north)
 north = T([1])([11.25])(north)
 
+#sud
+wall_depth = 0.25
+
+south_face_z = z_pillar0+floor_z
+south_face_x = wall_depth
+
+south_face_r1_y=0.3
+south_face_r1_z=8.4
+south_face_r1_transl_y=6.384
+
+south_face_r2_y=6.604
+south_face_r2_z= 2.5
+south_face_r2_transl_z= 7
+
+south_face_r3_y=0.237
+south_face_r3_z= 5.9
+
+south_face_r4_y= 6.648
+south_face_r4_z= 0.307
+
+floor1_balcony_x = 1.135
+floor1_balcony_y = 1.067
+floor1_balcony_trasl_y = floor1_r1_trasl_y
 
 
-#Wall floor
+south_face_r1 = traslate([2],[south_face_r1_transl_y] ,CUBOID([south_face_x,south_face_r1_y,south_face_r1_z]))
+south_face_r2 = traslate([3],[south_face_r2_transl_z] ,CUBOID([south_face_x,south_face_r2_y,south_face_r2_z]))
+south_face_r3 = CUBOID([south_face_x,south_face_r3_y,south_face_r3_z])
+south_face_r4 = CUBOID([south_face_x,south_face_r4_y,south_face_r4_z])
+south_face_balcony = CUBOID([south_face_x,south_face_r4_y,south_face_r4_z])
 
 
 
-building = STRUCT([model_base, traslateVector([3],[base_z]), floor0, pillars0, floor1, pillars1, floor2, pillars2, floor3, pillars3, traslate([3],[floor4_trasl_z],floor4), east, north])
+
+south = traslate([3],[south_face_z],STRUCT([south_face_r1,south_face_r2,south_face_r3,south_face_r4]))
+
+
+floor1_balcony_x = 1.135
+floor1_balcony_y = 1.067
+floor1_balcony_trasl_y = floor1_r1_trasl_y
+
+floor1_r1 = traslate([2],[floor1_r1_trasl_y], CUBOID([floor1_r1_x,floor1_r1_y,floor_z]))
+floor1_r2 = CUBOID([floor1_r2_x,floor1_r2_y,floor_z])
+floor1_r3 = traslate([1,2],[floor1_r3_trasl_x,floor1_r3_trasl_y], CUBOID([floor1_r3_x,floor1_r3_y,floor_z]))
+floor1_balcony = traslate([1,2],[-floor1_balcony_x,floor1_balcony_trasl_y], CUBOID([floor1_balcony_x,floor1_balcony_y,floor_z]))
+
+
+
+#floor0 wall
+
+floor_z = 0.39
+
+floor0_r1_x = 1.457
+floor0_r1_y = 1.46
+
+floor0_r2_x = 6.74
+floor0_r2_y = 4.42
+floor0_r2_trasl_x = floor0_r1_x
+floor0_r2_trasl_y = 2.328
+
+floor0_r3_x = 1.134
+floor0_r3_y = 2.67
+floor0_r3_trasl_x = floor0_r1_x+floor0_r2_x
+floor0_r3_trasl_y = 4.1
+
+r_floor0_semcirc_1 = 1.35
+r_floor0_semcirc_1_trasl_x = floor0_r1_x+floor0_r2_x+floor0_r3_x
+r_floor0_semcirc_1_trasl_y = floor0_r3_trasl_y
+
+r_floor0_semcirc_2 = 0.54
+r_floor0_semcirc_2_trasl_x = floor0_r2_trasl_x
+r_floor0_semcirc_2_trasl_y = 1.2
+
+floor0_r4_x = 2*r_floor0_semcirc_2
+floor0_r4_y = floor0_r2_trasl_x - r_floor0_semcirc_2_trasl_x + r_floor0_semcirc_2 + 0.5
+floor0_r4_trasl_x = r_floor0_semcirc_2_trasl_x
+floor0_r4_trasl_y = r_floor0_semcirc_2_trasl_y + r_floor0_semcirc_2
+
+#Draw floor0
+model_base = CUBOID([base_x,base_y,base_z])
+
+floor0_r1 = traslate([2],[dist_pillar0_y],CUBOID([floor0_r1_x,floor0_r1_y,z_pillar0]))
+floor0_r2 = traslate([1,2],[floor0_r2_trasl_x,floor0_r2_trasl_y],CUBOID([floor0_r2_x,floor0_r2_y,z_pillar0]))
+floor0_r3 = traslate([1,2],[floor0_r3_trasl_x,floor0_r3_trasl_y],CUBOID([floor0_r3_x,floor0_r3_y,z_pillar0]))
+semcirc_1_2D = semicircle(r_floor0_semcirc_1)
+semcirc_1 = traslate([2],[r_floor0_semcirc_1],rotate([1,2],-PI/2,extrude(semcirc_1_2D,z_pillar0)))
+floor0_semicirc1 = traslate([1,2],[r_floor0_semcirc_1_trasl_x,r_floor0_semcirc_1_trasl_y],semcirc_1)
+floor0_r4 = traslate([1,2],[floor0_r4_trasl_x,floor0_r4_trasl_y],CUBOID([floor0_r4_x,floor0_r4_y,z_pillar0]))
+
+semcirc_2_2D = semicircle(r_floor0_semcirc_2)
+semcirc_2_centered = rotate([1,2],PI,extrude(semcirc_2_2D,z_pillar0))
+semcirc_2 = traslate([1,2],[r_floor0_semcirc_2,r_floor0_semcirc_2],semcirc_2_centered)
+floor0_semicirc2 = traslate([1,2],[r_floor0_semcirc_2_trasl_x,r_floor0_semcirc_2_trasl_y],semcirc_2)
+
+wall_floor0 = STRUCT([floor0_r1,floor0_r2,floor0_r3,floor0_semicirc1,floor0_semicirc2,floor0_r4]) 
+
+
+
+
+
+
+
+
+
+
+
+
+building = STRUCT([model_base, traslateVector([3],[base_z]), wall_floor0,floor0, pillars0, floor1, pillars1, floor2, pillars2, floor3, pillars3, traslate([3],[floor4_trasl_z],floor4), east, north,south])
 
 VIEW(building)
