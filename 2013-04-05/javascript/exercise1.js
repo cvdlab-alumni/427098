@@ -71,13 +71,13 @@ var pillars0 = STRUCT([pillar0_below, traslate([2],[dist_pillar0_y],pillar0_up_c
 var pillar1_below = STRUCT([square_pillar_model, STRUCT(REPLICA(4)([traslateVector([1],[dist_pillar0_x]),square_pillar_model])) ]);
 
 var pillar1_up_1 = STRUCT( [square_pillar_model, STRUCT(REPLICA(2)([traslateVector([1],[dist_pillar0_x]),square_pillar_model]))] );
-var pillar1_up_2 = STRUCT( [pillar1_up_1, traslate([1], dist_pillar1_up_circle, pillar_circle_model),traslate([1], dist_pillar1_up_square, square_pillar_model)] );
+var pillar1_up_2 = STRUCT( [pillar1_up_1, traslate([1], [dist_pillar1_up_circle], pillar_circle_model),traslate([1], [dist_pillar1_up_square], square_pillar_model)] );
 
 var square_pillar_model_small = CUBOID([l_pillar1_small,l_pillar1_small,z_pillar0]);
 
-var pillar1_up = STRUCT([pillar1_up_2, traslate([1],[dist_pillar1_small],square_pillar_model_small)]);
+var pillar1_up1 = STRUCT([pillar1_up_2, traslate([1],[dist_pillar1_small],square_pillar_model_small)]);
 
-pillar1_up = traslate([2],[dist_pillar0_y],pillar1_up);
+pillar1_up = traslate([2],[dist_pillar0_y],pillar1_up1);
 
 
 var pillars1 = traslate([3],[z_pillar0+first_floor_z],STRUCT([pillar1_below, pillar1_up]));
