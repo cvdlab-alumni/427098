@@ -192,6 +192,7 @@ floor1 = traslate([3],[floor1_z],STRUCT([floor1_r1,floor1_r2,floor1_r3, floor1_b
 
 
 #Draw floor2
+
 floor2_z = 2*z_pillar0 + floor_z
 
 
@@ -207,6 +208,39 @@ floor2_r = CUBOID([floor2_r_x,floor2_r_y,floor_z])
 
 floor2 = traslate([3],[floor2_z],STRUCT([trapezium,floor2_r]))
 
+#Draw floor3
+
+floor3_z = 3*z_pillar0 + 2*floor_z
+
+floor3_r1_x = 11.16
+floor3_r1_y = 0.152
+floor3_r1_trasl_y = 6.52
+
+floor3_r2_y = 0.25
+floor3_r2_trasl_x = 5.456
+floor3_r2_x = floor3_r1_x - floor3_r2_trasl_x
+floor3_r2_trasl_y = 6.39
+
+floor3_r3_x = 0.244
+floor3_r3_y = 6.412
+floor3_r3_trasl_x =  floor3_r2_trasl_x
+
+floor3_r4_x = 5.47
+floor3_r4_y = 5.46
+floor3_r4_trasl_x = floor3_r3_trasl_x + floor3_r3_x
+
+floor3_r5_x = 2.418
+floor3_r5_y = 0.934
+floor3_r5_trasl_x = floor3_r3_trasl_x + 3.29
+floor3_r5_trasl_y = floor3_r4_y
+
+floor3_r1 = traslate([2],[floor3_r1_trasl_y], CUBOID([floor3_r1_x,floor3_r1_y,floor_z]))
+floor3_r2 = traslate([1,2],[floor3_r2_trasl_x,floor3_r2_trasl_y], CUBOID([floor3_r2_x,floor3_r2_y,floor_z]))
+floor3_r3 = traslate([1],[floor3_r3_trasl_x], CUBOID([floor3_r3_x,floor3_r3_y,floor_z]))
+floor3_r4 = traslate([1],[floor3_r4_trasl_x], CUBOID([floor3_r4_x,floor3_r4_y,floor_z]))
+floor3_r5 = traslate([1,2],[floor3_r5_trasl_x,floor3_r5_trasl_y], CUBOID([floor3_r5_x,floor3_r5_y,floor_z]))
+
+floor3 = traslate([3],[floor3_z],STRUCT([floor3_r1,floor3_r2,floor3_r3,floor3_r4,floor3_r5]))
 
 #Draw floor4
 
@@ -233,6 +267,6 @@ floor4 = STRUCT([floor4_r1, floor4_r2])
 
 
 
-building = STRUCT([model_base, traslateVector([3],[base_z]), floor0, pillars0, floor1, pillars1, floor2, pillars2, pillars3, traslate([3],[floor4_trasl_z],floor4)])
+building = STRUCT([model_base, traslateVector([3],[base_z]), floor0, pillars0, floor1, pillars1, floor2, pillars2, floor3, pillars3, traslate([3],[floor4_trasl_z],floor4)])
 
 VIEW(building)
