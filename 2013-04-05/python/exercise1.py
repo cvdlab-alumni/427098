@@ -69,11 +69,22 @@ pillars1 = traslate([3],[z_pillar0+first_floor_z],STRUCT([pillar1_below, pillar1
 
 
 #Draw pillar2
+pillar2_up = traslate([2],[dist_pillar0_y],STRUCT([square_pillar_model, STRUCT(NN(4)([traslateVector([1],[dist_pillar0_x]),square_pillar_model])) ]))
 
+pillar2_below = STRUCT([square_pillar_model, traslate([1],[dist_pillar0_x],square_pillar_model), traslate([1],[dist_pillar0_x*4],square_pillar_model) ])
 
+pillars2_with_hole = traslate([3],[2*(z_pillar0+first_floor_z)],STRUCT([pillar2_up,pillar2_below]))
 
+pillars12_delta_model = CUBOID([l_pillar0,l_pillar0,first_floor_z])
 
+pillars12_delta_below = traslate([3],[2*z_pillar0 + first_floor_z],STRUCT([pillars12_delta_model, traslateVector([1],[dist_pillar0_x]), pillars12_delta_model]))
 
-building = STRUCT([pillars0, pillars1])
+pillars12_delta_up = traslate([2],[dist_pillar0_y], pillars12_delta_below)
+
+pillars2 = STRUCT([pillars2_with_hole,pillars12_delta_below,pillars12_delta_up])
+
+building = STRUCT([pillars0, pillars1, pillars2])
 
 VIEW(building)
+
+#Draw pillar3
