@@ -91,16 +91,47 @@ profilo_frontale_8 = traslaPointsZ(addXValue([[3.59, 3.27], [3.8, 3.03], [3.93, 
 pf_curva_8 = bezier(profilo_frontale_8)
 
 
+#Cofano
+profilo_frontale_9 = traslaPointsZ(addXValue([[3.74, 2.66], [3.21, 2.1], [3.53, 2.18], [2.62, 2.19]],0),profilo_frontale_trasl_z)
+pf_curva_9 = bezier(profilo_frontale_9)
+
+profilo_frontale_10 = traslaPointsZ(addXValue([[1.4, 2.66], [1.89, 2.11], [1.59, 2.17], [2.62, 2.19]],0),profilo_frontale_trasl_z)
+pf_curva_10 = bezier(profilo_frontale_10)
+
+profilo_frontale_11 = traslaPointsZ(addXValue([[3.69, 2.13], [3.55, 2.26], [3.77, 2.4], [3.91, 2.49], [4.25, 2.3], [4.02, 2.07], [3.69, 2.13]],0),profilo_frontale_trasl_z)
+pf_curva_11 = bezier(profilo_frontale_11)
+
+profilo_frontale_12 = traslaPointsZ(addXValue([[1.4, 2.1], [1.58, 2.15], [1.52, 2.34], [1.22, 2.48], [0.97, 2.32], [1.07, 2.08], [1.4, 2.1]],0),profilo_frontale_trasl_z)
+pf_curva_12 = bezier(profilo_frontale_12)
+
+#Specchietto
+profilo_frontale_13 = traslaPointsZ(addXValue([[1.14, 2.78],[1.07, 2.68]],0),profilo_frontale_trasl_z)
+pf_curva_13 = bezier(profilo_frontale_13)
+
+profilo_frontale_14 = traslaPointsZ(addXValue([[1.07, 2.8],[1.04, 2.69]],0),profilo_frontale_trasl_z)
+pf_curva_14 = bezier(profilo_frontale_14)
+
+profilo_frontale_15 = traslaPointsZ(addXValue([[1.04, 2.69],[1.07, 2.68]],0),profilo_frontale_trasl_z)
+pf_curva_15 = bezier(profilo_frontale_15)
+
+profilo_frontale_16 = traslaPointsZ(addXValue([[1.14, 2.78],[1.07, 2.8]],0),profilo_frontale_trasl_z)
+pf_curva_16 = bezier(profilo_frontale_16)
+
+profilo_frontale_17 = traslaPointsY(traslaPointsZ(addXValue([[0.75, 2.86], [0.65, 2.78], [0.8, 2.66], [1.04, 2.69], [1.15, 2.96], [0.88, 2.94], [0.75, 2.86]],0),profilo_frontale_trasl_z-0.06),0.08)
+pf_curva_17 = bezier(profilo_frontale_17)
+
 
 profilo_frontale = STRUCT([ bezMap(pf_curva_1,dominio_linea), bezMap(pf_curva_2,dominio_linea), bezMap(pf_curva_3,dominio_linea),\
      bezMap(pf_curva_4,dominio_linea),bezMap(pf_curva_5,dominio_linea),bezMap(pf_curva_6,dominio_linea),bezMap(pf_curva_7,dominio_linea),\
-     bezMap(pf_curva_8,dominio_linea) ])
+     bezMap(pf_curva_8,dominio_linea),bezMap(pf_curva_9,dominio_linea),bezMap(pf_curva_10,dominio_linea),bezMap(pf_curva_11,dominio_linea),\
+     bezMap(pf_curva_12,dominio_linea),bezMap(pf_curva_13,dominio_linea),bezMap(pf_curva_14,dominio_linea),bezMap(pf_curva_15,dominio_linea),\
+     bezMap(pf_curva_16,dominio_linea),bezMap(pf_curva_17,dominio_linea) ])
 
 
 
 
 
-print flipAux([[3.61, 3.29], [3.18, 3.36], [2.05, 3.4], [1.53, 3.28]])
+print flipAux([[0.75, 2.86], [0.88, 2.94], [1.15, 2.96], [1.04, 2.69]])
 
 profili = STRUCT([profilo_laterale,profilo_frontale])
 
