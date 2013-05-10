@@ -195,11 +195,11 @@ def addYValue(points, y):
 	return map(lambda item: [item[0],y,item[1]], points)
 
 def addZValue(points, z):
-	return map(lambda item: [item[0],item[1]],z, points)
+	return map(lambda item: [item[0],item[1],z], points)
 
 def addXValue(points, x):
 	return map(lambda item: [x,item[0],item[1]], points)
-	
+
 #Funzione che ruota di 180 gradi (flippa) il profilo invertendo l'asse x
 def flipX(points):
 	def aux(item):
