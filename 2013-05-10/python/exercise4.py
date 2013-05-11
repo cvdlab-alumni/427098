@@ -135,6 +135,6 @@ volante = R([2,3])(PI/2)(volante)
 scala_volante = 0.25
 volante = S([1,2,3])([scala_volante,scala_volante,scala_volante])(volante)
 
-#view([profili1,ruote,T([1,2,3])([4,2,1.6])(volante),grid3DLightDetailed(10)])
+view([profili1,ruote,T([1,2,3])([4,2,1.6])(volante),grid3DLightDetailed(10)])
 
 
