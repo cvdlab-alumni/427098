@@ -1,5 +1,8 @@
 from exercise3 import *
 
+black = rgb([40,40,40])
+
+
 raggio_volante = 1.5
 spessore_volante = 0.3
 
@@ -78,15 +81,45 @@ grigio_c4_4_down = bezier(grigio_c4_4_down_v)
 grigio_p4 = unifyAllBezierCurvesClosed([grigio_c4_down,grigio_c4_4_down,grigio_c4_4_up,grigio_c4_up],dominio_area)
 
 
+#Nero centrale
+nero_centro_delta = 0.05
+nero_centro_up1 = traslaPointsZ( addZValue([[2, 2.12], [1.87, 2.1], [1.66, 2.06], [1.36, 1.91]],0) ,0.03)
+nero_centro_down1 = addZValue([[2.21, 1.01],[1.75, 0.85], [2.05, 1.06], [1.35, 1.45]],0)
+nero_centro_up1_1 = traslaPointsZ(traslaPointsY(traslaPointsX(nero_centro_up1,nero_centro_delta),-nero_centro_delta),-nero_centro_delta)
+nero_centro_down1_1 = traslaPointsZ(traslaPointsY(traslaPointsX(nero_centro_down1,nero_centro_delta),nero_centro_delta),nero_centro_delta)
+
+nero_centro_up2 = traslaPointsZ( addZValue([[2.66, 2.12], [2.4, 2.17], [2.2, 2.18], [2, 2.12]],0) ,0.03)
+nero_centro_down2 = addZValue([[2.78, 1.68], [2.23, 0.89], [2.7, 1.11], [2.21, 1.01]],0)
+nero_centro_up2_1 = traslaPointsZ(traslaPointsY(traslaPointsX(nero_centro_up2,nero_centro_delta),-nero_centro_delta),-nero_centro_delta)
+nero_centro_down2_1 = traslaPointsZ(traslaPointsY(traslaPointsX(nero_centro_down2,nero_centro_delta),nero_centro_delta),nero_centro_delta)
+
+curva_1 = bezier(nero_centro_up1)
+curva_2 = bezier(nero_centro_down1)
+curva_3 = bezier(nero_centro_up1_1)
+curva_4 = bezier(nero_centro_down1_1)
+curva_5 = bezier(nero_centro_up2)
+curva_6 = bezier(nero_centro_down2)
+curva_7 = bezier(nero_centro_up2_1)
+curva_8 = bezier(nero_centro_down2_1)
+
+nero_centro_p1 = BEZIER(S2)([curva_3,curva_1,curva_4,curva_2])
+#nero_centro_p2 = BEZIER(S2)([curva_6,curva_8,curva_7,curva_5])
+nero_centro_p2 = BEZIER(S2)([curva_7,curva_5,curva_8,curva_6])
+
+nero_centro = STRUCT([ MAP(nero_centro_p1)(dominio_area), MAP(nero_centro_p2)(dominio_area) ])
+
+
+# view([bezMap(bezier(nero_centro_up1),dominio_linea),bezMap(bezier(nero_centro_down1),dominio_linea),bezMap(bezier(nero_centro_up1_1),dominio_linea),\
+# 	bezMap(bezier(nero_centro_down1_1),dominio_linea),\
+# 	bezMap(bezier(nero_centro_up2),dominio_linea),bezMap(bezier(nero_centro_down2),dominio_linea),bezMap(bezier(nero_centro_up2_1),dominio_linea),\
+# 	bezMap(bezier(nero_centro_down2_1),dominio_linea)])
+
+
 parte_grigia = STRUCT([grigio_p1,grigio_p3,grigio_p4])
-parte_nera = COLOR(rgb([40,40,40]))(STRUCT([nero_p1,nero_p2]))
+parte_nera = COLOR(black)(STRUCT([nero_p1,nero_p2,T([3])([spessore_grigio])(nero_centro)]))
 
 
-
-
-
-
-print flipAux([[2.84, 2.1], [2.61, 2.23], [2.51, 2.25], [2.3, 2.28]])
+print flipAux([[2, 2.12], [2.2, 2.18], [2.4, 2.17], [2.66, 2.12]])
 
 
 
