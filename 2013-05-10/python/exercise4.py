@@ -13,7 +13,7 @@ volante_toro_c2 = bezier_circle_map(raggio_volante-spessore_volante,S1)
 volante_toro_c3 = bezier_circle_not_centered_map(raggio_volante-spessore_volante/2,0,0,spessore_volante,S1)
 volante_toro_c4 = bezier_circle_not_centered_map(raggio_volante-spessore_volante/2,0,0,-spessore_volante,S1)
 
-volante_toro = BEZIER(S2)([volante_toro_c1,volante_toro_c4,volante_toro_c2,volante_toro_c3,volante_toro_c1])
+volante_toro = MAP(BEZIER(S2)([volante_toro_c1,volante_toro_c4,volante_toro_c2,volante_toro_c3,volante_toro_c1]))(dominio_area)
 
 #Blocco centrale
 spessore_nero = 0.2
@@ -103,27 +103,33 @@ curva_7 = bezier(nero_centro_up2_1)
 curva_8 = bezier(nero_centro_down2_1)
 
 nero_centro_p1 = BEZIER(S2)([curva_3,curva_1,curva_4,curva_2])
-#nero_centro_p2 = BEZIER(S2)([curva_6,curva_8,curva_7,curva_5])
 nero_centro_p2 = BEZIER(S2)([curva_7,curva_5,curva_8,curva_6])
 
 nero_centro = STRUCT([ MAP(nero_centro_p1)(dominio_area), MAP(nero_centro_p2)(dominio_area) ])
 
 
-# view([bezMap(bezier(nero_centro_up1),dominio_linea),bezMap(bezier(nero_centro_down1),dominio_linea),bezMap(bezier(nero_centro_up1_1),dominio_linea),\
-# 	bezMap(bezier(nero_centro_down1_1),dominio_linea),\
-# 	bezMap(bezier(nero_centro_up2),dominio_linea),bezMap(bezier(nero_centro_down2),dominio_linea),bezMap(bezier(nero_centro_up2_1),dominio_linea),\
-# 	bezMap(bezier(nero_centro_down2_1),dominio_linea)])
+
+
+
 
 
 parte_grigia = STRUCT([grigio_p1,grigio_p3,grigio_p4])
 parte_nera = COLOR(black)(STRUCT([nero_p1,nero_p2,T([3])([spessore_grigio])(nero_centro)]))
+volante_toro = COLOR(black)(volante_toro)
+
+interno_volante = STRUCT([parte_nera,parte_grigia])
+interno_volante = R([1,2])(-PI/10)(interno_volante)
+
+logo_ferrari = CIRCLE(0.1)([32,32])
+logo_ferrari = TEXTURE('../images/logo.png')(logo_ferrari)
+
+pulsante = COLOR([0.7,0,0])(CIRCLE(0.07)([32,32]))
 
 
-print flipAux([[2, 2.12], [2.2, 2.18], [2.4, 2.17], [2.66, 2.12]])
+scala_interno_volante = 1.2
+volante = STRUCT([S([1,2,3])([scala_interno_volante])(T([1,2,3])([-2.4,-1,-0.1])(interno_volante)),volante_toro,\
+	T([3])([0.23])(logo_ferrari),T([1,2,3])([-0.7,-0.3,0.20])(pulsante) ])
 
-
-
-#view([SKELETON(1)(nero_p1),SKELETON(1)(nero_p2),SKELETON(1)(grigio_p1),SKELETON(1)(grigio_p3),SKELETON(1)(grigio_p4),POLYLINE([[0,0],nero_c2_up_v[0]])])
-view([parte_nera,parte_grigia])
+view([volante])
 
 

@@ -25,6 +25,7 @@ ruota_centro_interno2 = bezier_circle_not_centered_map(raggio_ruota-ampiezza_gom
 
 gomma = MAP(BEZIER(S2)([ruota_interno1,ruota_esterno1,ruota_esterno2,ruota_interno2]))(dominio_area)
 gomma = STRUCT([gomma,MAP(BEZIER(S2)([ruota_interno1,ruota_centro,ruota_interno2]))(dominio_area)])
+gomma = TEXTURE('../images/ruota.jpg')(gomma)
 
 #piatto_del_cerchione = MAP(BEZIER(S2)([ruota_interno1,ruota_centro_interno1,ruota_centro_interno2,ruota_interno2]))(dominio_area)
 piatto_del_cerchione_1 = unifyBezierCurves(ruota_interno1,ruota_interno1_1,dominio_area)
@@ -79,7 +80,7 @@ cerchione = T([1,2])([-0.65,-0.35])(cerchione)
 
 logo_ferrari = CIRCLE(0.05)([32,32])
 logo_ferrari = R([1,3])(PI)(logo_ferrari)
-logo_ferrari = COLOR(rgb([255, 255, 102]))(logo_ferrari)
+logo_ferrari = TEXTURE('../images/logo.png')(logo_ferrari)
 cerchione = STRUCT([cerchione,T([3])([-0.02])(logo_ferrari)])
 
 cerchione2 = R([1,3])(PI)(cerchione)
