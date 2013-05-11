@@ -329,10 +329,16 @@ def unifyBezierCurves(map_curve_1,map_curve_2,dom2D):
 
 #Funzione che mi crea una struttura composta da le superfici di bezier create tra le coppie di curve in input
 #NB: le coppie sono prese in ordine: (0,1),(1,2)...(n-1,n),(n,0)
-def unifyAllBezierCurvers(curves,dom2D):
+def unifyAllBezierCurversClosed(curves,dom2D):
 	output = STRUCT([unifyBezierCurves(curves[0],curves[1],dom2D)])
 	for i in range(1, len(curves)):
 		output = STRUCT([ output,unifyBezierCurves(curves[i],curves[(i+1)%curves.length],dom2D) ])
+	return output
+
+def unifyAllBezierCurvers(curves,dom2D):
+	output = STRUCT([unifyBezierCurves(curves[0],curves[1],dom2D)])
+	for i in range(1, len(curves)-1):
+		output = STRUCT([ output,unifyBezierCurves(curves[i],curves[(i+1)],dom2D) ])
 	return output
 
 #Date n funzioni di bezier, crea una superficie chiusa, collegandole in ordine

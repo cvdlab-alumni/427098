@@ -23,7 +23,7 @@ def traslateZAllPoints(args,value):
 	return out
 
 dominio_linea = dom1D(32)
-dominio_area = dom2D(32, 32)
+dominio_area = dom2D(50, 50)
 profilo_laterale_trasl_z = -4.5
 profilo_frontale_trasl_z = -1
 
@@ -284,8 +284,14 @@ profilo_superiore = T([1,2])([0.5,-3])(S([1,2,3])([1.6,1.5,1.5])(profilo_superio
 
 
 
-print flipAux([[8.65, 6.15], [8.7, 6.1], [8.79, 6.07], [8.75, 5.88]])
+#print flipAux([[8.65, 6.15], [8.7, 6.1], [8.79, 6.07], [8.75, 5.88]])
 
-profili = STRUCT([profilo_laterale,profilo_frontale,profilo_superiore])
+profili1 = STRUCT([profilo_laterale,profilo_frontale,profilo_superiore])
 
-VIEW(grill3DLight(profili,10))
+#VIEW(grill3DLight(profili1,10))
+
+profili2 = STRUCT([T([1,3])([-5.5,-0.5])(profilo_laterale),T([2,3])([-2.5,-0.5])(profilo_frontale),T([1,2])([-5.5,-2.5])(profilo_superiore)])
+
+profili3 = T([1,2])([-5.5,-2.5])(profili1)
+
+#VIEW(grill3DLight(profili3,10))
