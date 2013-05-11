@@ -172,7 +172,6 @@ profilo_frontale = STRUCT([ bezMap(pf_curva_1,dominio_linea), bezMap(pf_curva_2,
 
 #Profilo superiore
 
-# profilo_superiore_1 = traslaPointsY(traslaPointsX(addZValue([[1.63, 1.82], [1.69, 1.38], [2.36, 1.53],[2.58, 1.51], [2.76, 1.51], [3.38, 1.41], [3.5, 1.84]],0),-1),-0.8)
 profilo_superiore_1 = addZValue([[0.1, 4.29], [0.19, 4.49], [0.34, 4.62], [0.51, 4.68], [1.21, 4.74], [1.05, 4.63], [2.1, 4.66]],0)
 ps_curva_1 = bezier(profilo_superiore_1)
 
@@ -287,10 +286,12 @@ profilo_superiore = T([1,2])([0.5,-3])(S([1,2,3])([1.6,1.5,1.5])(profilo_superio
 
 profili1 = STRUCT([profilo_laterale,profilo_frontale,profilo_superiore])
 
-#VIEW(grill3DLight(profili1,10))
+VIEW(profili1)
 
-#profili2 = STRUCT([T([1,3])([-5.5,-0.5])(profilo_laterale),T([2,3])([-2.5,-0.5])(profilo_frontale),T([1,2])([-5.5,-2.5])(profilo_superiore)])
+profili2 = STRUCT([T([1,3])([-5.5,-0.5])(profilo_laterale),T([2,3])([-2.5,-0.5])(profilo_frontale),T([1,2])([-5.5,-2.5])(profilo_superiore)])
 
-#profili3 = T([1,2])([-5.5,-2.5])(profili1)
+#VIEW(profili2)
 
-#VIEW(grill3DLight(profili3,10))
+profili3 = T([1,2])([-5.5,-2.5])(profili1)
+
+VIEW(profili3,10)

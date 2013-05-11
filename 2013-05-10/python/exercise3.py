@@ -1,6 +1,4 @@
 from exercise2 import *
-#from funzioniUtiliPyPlasm import *
-
 
 raggio_ruota = 0.6
 ampiezza_gomma = 0.27
@@ -27,7 +25,6 @@ gomma = MAP(BEZIER(S2)([ruota_interno1,ruota_esterno1,ruota_esterno2,ruota_inter
 gomma = STRUCT([gomma,MAP(BEZIER(S2)([ruota_interno1,ruota_centro,ruota_interno2]))(dominio_area)])
 gomma = TEXTURE('../images/ruota.jpg')(gomma)
 
-#piatto_del_cerchione = MAP(BEZIER(S2)([ruota_interno1,ruota_centro_interno1,ruota_centro_interno2,ruota_interno2]))(dominio_area)
 piatto_del_cerchione_1 = unifyBezierCurves(ruota_interno1,ruota_interno1_1,dominio_area)
 piatto_del_cerchione_2 = unifyBezierCurves(ruota_interno2_2,ruota_interno2,dominio_area)
 piatto_del_cerchione = STRUCT([piatto_del_cerchione_1,piatto_del_cerchione_2])
@@ -96,4 +93,4 @@ coppia_ruote = STRUCT([T([1])([1.8])(ruota),T([1])([7])(ruota)])
 ruote = STRUCT([ T([2,3])([raggio_ruota,raggio_ruota]),T([2])([1])(coppia_ruote),T([2])([3.5])(coppia_ruote) ])
 
 
-#view([profili1,ruote])
+view([profili1,ruote])

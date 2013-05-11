@@ -1,12 +1,8 @@
 from exercise3 import *
 
 black = rgb([40,40,40])
-
-
 raggio_volante = 1.5
 spessore_volante = 0.3
-
-
 
 volante_toro_c1 = bezier_circle_map(raggio_volante, S1)
 volante_toro_c2 = bezier_circle_map(raggio_volante-spessore_volante,S1)
@@ -108,11 +104,6 @@ nero_centro_p2 = BEZIER(S2)([curva_7,curva_5,curva_8,curva_6])
 nero_centro = STRUCT([ MAP(nero_centro_p1)(dominio_area), MAP(nero_centro_p2)(dominio_area) ])
 
 
-
-
-
-
-
 parte_grigia = STRUCT([grigio_p1,grigio_p3,grigio_p4])
 parte_nera = COLOR(black)(STRUCT([nero_p1,nero_p2,T([3])([spessore_grigio])(nero_centro)]))
 volante_toro = COLOR(black)(volante_toro)
@@ -134,7 +125,7 @@ volante = R([1,3])(-PI/2)(volante)
 volante = R([2,3])(PI/2)(volante)
 scala_volante = 0.25
 volante = S([1,2,3])([scala_volante,scala_volante,scala_volante])(volante)
-
-view([profili1,ruote,T([1,2,3])([4,2,1.6])(volante),grid3DLightDetailed(10)])
+volante = T([1,2,3])([4,2,1.3])(volante)
+view([profili1,ruote,volante])
 
 
