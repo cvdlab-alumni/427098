@@ -44,7 +44,7 @@ def SPJS(dimens,values,object):
 
 #Funzione che mi permette di inserire i colori in rgb con range [0,255]
 def rgb(color):
-	return [color[0]/255, color[1]/255, color[2]/255]
+	return [color[0]/255., color[1]/255., color[2]/255.]
 
 #Funzione che disegna una griglia 2D
 def grid2D(dimens,axis1,axis2):
@@ -86,9 +86,7 @@ def grid2Ddetailed(dimens,axis1,axis2):
 	return STRUCT([semi_grid(axis1,axis2),semi_grid(axis2,axis1)])
 
 def isInt(val):
-	print val
 	if val - int(val) < 0.01:
-		print True
 		return True
 	return False
 
@@ -329,10 +327,10 @@ def unifyBezierCurves(map_curve_1,map_curve_2,dom2D):
 
 #Funzione che mi crea una struttura composta da le superfici di bezier create tra le coppie di curve in input
 #NB: le coppie sono prese in ordine: (0,1),(1,2)...(n-1,n),(n,0)
-def unifyAllBezierCurversClosed(curves,dom2D):
+def unifyAllBezierCurvesClosed(curves,dom2D):
 	output = STRUCT([unifyBezierCurves(curves[0],curves[1],dom2D)])
 	for i in range(1, len(curves)):
-		output = STRUCT([ output,unifyBezierCurves(curves[i],curves[(i+1)%curves.length],dom2D) ])
+		output = STRUCT([ output,unifyBezierCurves(curves[i],curves[(i+1)%len(curves)],dom2D) ])
 	return output
 
 def unifyAllBezierCurvers(curves,dom2D):
