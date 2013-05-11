@@ -130,6 +130,11 @@ scala_interno_volante = 1.2
 volante = STRUCT([S([1,2,3])([scala_interno_volante])(T([1,2,3])([-2.4,-1,-0.1])(interno_volante)),volante_toro,\
 	T([3])([0.23])(logo_ferrari),T([1,2,3])([-0.7,-0.3,0.20])(pulsante) ])
 
-view([volante])
+volante = R([1,3])(-PI/2)(volante)
+volante = R([2,3])(PI/2)(volante)
+scala_volante = 0.25
+volante = S([1,2,3])([scala_volante,scala_volante,scala_volante])(volante)
+
+#view([profili1,ruote,T([1,2,3])([4,2,1.6])(volante),grid3DLightDetailed(10)])
 
 
