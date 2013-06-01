@@ -286,7 +286,7 @@ profilo_superiore = T([1,2])([0.5,-3])(S([1,2,3])([1.6,1.5,1.5])(profilo_superio
 
 profili1 = STRUCT([profilo_laterale,profilo_frontale,profilo_superiore])
 
-VIEW(profili1)
+#VIEW(profili1)
 
 profili2 = STRUCT([T([1,3])([-5.5,-0.5])(profilo_laterale),T([2,3])([-2.5,-0.5])(profilo_frontale),T([1,2])([-5.5,-2.5])(profilo_superiore)])
 
@@ -294,4 +294,4 @@ profili2 = STRUCT([T([1,3])([-5.5,-0.5])(profilo_laterale),T([2,3])([-2.5,-0.5])
 
 profili3 = T([1,2])([-5.5,-2.5])(profili1)
 
-VIEW(profili3,10)
+#VIEW(profili3,10)

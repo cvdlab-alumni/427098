@@ -18,8 +18,8 @@ ruota_centro = bezier_circle_not_centered_map(raggio_ruota,0,0,spessore/2, S1)
 ruota_centro_interno1 = bezier_circle_not_centered_map(raggio_ruota-ampiezza_gomma,0,0,spessore/4, S1)
 ruota_centro_interno2 = bezier_circle_not_centered_map(raggio_ruota-ampiezza_gomma,0,0,3*spessore/4, S1)
 
-# view([bezMap(ruota_esterno1, dominio_linea),bezMap(ruota_interno1, dominio_linea),bezMap(ruota_esterno2, dominio_linea),bezMap(ruota_interno2, dominio_linea)\
-# 	,bezMap(ruota_centro, dominio_linea)])
+view([bezMap(ruota_esterno1, dominio_linea),bezMap(ruota_interno1, dominio_linea),bezMap(ruota_esterno2, dominio_linea),bezMap(ruota_interno2, dominio_linea)\
+	,bezMap(ruota_centro, dominio_linea)])
 
 gomma = MAP(BEZIER(S2)([ruota_interno1,ruota_esterno1,ruota_esterno2,ruota_interno2]))(dominio_area)
 gomma = STRUCT([gomma,MAP(BEZIER(S2)([ruota_interno1,ruota_centro,ruota_interno2]))(dominio_area)])
@@ -93,4 +93,4 @@ coppia_ruote = STRUCT([T([1])([1.8])(ruota),T([1])([7])(ruota)])
 ruote = STRUCT([ T([2,3])([raggio_ruota,raggio_ruota]),T([2])([1])(coppia_ruote),T([2])([3.5])(coppia_ruote) ])
 
 
-view([profili1,ruote])
+#view([profili1,ruote])
