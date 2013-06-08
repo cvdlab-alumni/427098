@@ -11,7 +11,7 @@ function z(u,v){
 	else if (u>16 && u<25 && v>16 && v<25) return -(Math.pow(Math.cos(u),2)+Math.pow(Math.sin(v),2)); //lago
 	// else if (u>10 && u<25 && v>10 && v<25) return Math.abs((u*v)-(17))%3; //lago
 	//else if (u>10 && u<25 && v>10 && v<25) return ((u+v)*(u*v))%3 + 0.5; //lago
-	else if (u>30 && v<30) return 0.2; //foresta
+	else if (u>30 && v>10 && v<30) return 0.2; //foresta
 	return (u+v)*(u*v)%5 + (Math.random() - 0.5);
 }
 
@@ -39,10 +39,20 @@ draw(lago)
 
 
 //Es3
-function albero(altezza,raggio){
+domain = PROD1x1([INTERVALS(1)(8),INTERVALS(1)(1)])
+
+function unifyBezierCurves(map_curve_1,map_curve_2){
+	return MAP(BEZIER(S1)([map_curve_1,map_curve_2]))(domain);
+}
+
+function cilynder(r,h){
+	return EXTRUDE([h])(DISK(r)([8, 1]))
+}
+
+
+function albero(raggio,altezza){
 	var albero_base = cilynder(raggio*0.5,altezza/3);
-	// var albero_foglie = MAP(BEZIER(S1)([bezier_circle_not_centered_map(raggio*0.5,0,0,altezza/3),bezier_circle_not_centered_map(raggio*1.4,0,0,altezza/3),[0,0,altezza]]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)]))
-	var albero_foglie = MAP(BEZIER(S1)([bezier_circle_not_centered_map(raggio,0,0,altezza/3),[0,0,altezza]]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)]))
+	var albero_foglie = MAP(BEZIER(S1)([bezier_circle_not_centered_map(raggio,0,0,altezza/3),[0,0,altezza]]))(domain)
 	albero_foglie = STRUCT([albero_foglie, unifyBezierCurves(bezier_circle_not_centered_map(raggio*0.5,0,0,altezza/3),bezier_circle_not_centered_map(raggio,0,0,altezza/3))])
 
 	albero_base = COLOR(rgb([101,67,33]))(albero_base)
@@ -51,18 +61,44 @@ function albero(altezza,raggio){
 	return STRUCT([albero_base,albero_foglie])
 }
 
-function foresta(area_x,area_y,albero_r,albero_h){
-	numero_x = area_x/(albero_r*2)
-	numero_y = area_y/(albero_r*2)
+function generaForesta(area_x,area_y,albero_r,albero_h){
 
-	var i=0;
-	var j=0;
-	var alberi = STRUCT([albero])
-	while(i<numero_x){
-		while(j<numero_y){
+	var y_occupato = 2*albero_r;
+	var file_alberi = filaAlberi(area_x,albero_r,albero_h);
 
-		}
+	while(y_occupato<area_y){
+		file_alberi = STRUCT([file_alberi, T([1])([y_occupato])(filaAlberi(area_x,albero_r,albero_h))]);
+		y_occupato += albero_r*2;
 	}
 
+	return file_alberi;
 }
 
+
+function filaAlberi(area_x,albero_r,albero_h){
+	var rand_r = (Math.random() * 0.5) -0.25 + albero_r;
+	var rand_h = (Math.random() * 0.5) -0.25 + albero_h;
+
+	var x_occupato = rand_r*2;
+	var alberi = STRUCT([T([0])([x_occupato])(albero(rand_r,rand_h))]);
+
+	while(x_occupato<area_x){
+
+		rand_r = (Math.random() * 0.5) -0.25 + albero_r;
+		rand_h = (Math.random() * 0.5) -0.25 + albero_h;
+		alberi = STRUCT([alberi,T([0])([x_occupato])(albero(rand_r,rand_h))]);
+
+		x_occupato += rand_r*2
+	}
+
+	return alberi;
+}
+
+foresta_grande = generaForesta(28,10,0.6,2)
+foresta_grande = T([0,1])([30,10])(foresta_grande)
+
+foresta_piccola = generaForesta(8,8,0.6,1.7)
+foresta_piccola = T([0,1])([7,35])(foresta_piccola)
+
+foreste = STRUCT([foresta_grande,foresta_piccola])
+draw(foreste)
