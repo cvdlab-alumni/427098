@@ -1,3 +1,152 @@
+/**
+	Funzioni Ausiliarie
+**/
+
+var drawable_objects = [];
+
+function draw(obj){
+	drawable_objects.push(obj);
+	DRAW(obj);
+}
+
+
+function hide(obj){
+	drawable_objects = drawable_objects.filter( function(item){
+		return item !== obj;
+	});
+	HIDE(obj);
+}
+
+function hideAll(){
+	while(drawable_objects.length>0)
+		HIDE(drawable_objects.pop());	
+}
+
+
+function T(dims) {
+    return function (values) {
+      return function (object) {
+       return object.translate(dims, values);
+      };
+    };
+  }
+
+function R(dims) {
+    return function (values) {
+      return function (object) {
+       return object.rotate(dims, values);
+      };
+    };
+  }
+
+function S(dims) {
+    return function (values) {
+      return function (object) {
+       return object.scale(dims, values);
+      };
+    };
+  }
+
+//Richiama l'omonima funzione con clone
+function TC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().translate(dims, values);
+      };
+    };
+  }
+
+//Richiama l'omonima funzione con clone
+function RC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().rotate(dims, values);
+      };
+    };
+  }
+
+//Richiama l'omonima funzione con clone
+function SC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().scale(dims, values);
+      };
+    };
+  }
+
+function rgb(color){
+	return [color[0]/255, color[1]/255, color[2]/255];
+}
+
+var scalePoints = function(points,values) {
+	return points.map(function(item){
+		return item.map(function(elem){
+			return elem*values;
+		});
+	});
+}
+
+function traslaPointsZ(points,value){
+	return points.map(function(item){
+		return [item[0],item[1],item[2]+value];
+	});
+}
+
+function traslaPointsY(points,value){
+	return points.map(function(item){
+		return [item[0],item[1]+value,item[2]];
+	});
+}
+
+function traslaPointsX(points,value){
+	return points.map(function(item){
+		return [item[0]+value,item[1],item[2]];
+	});
+}
+
+function bezier_circle_not_centered_map(r,x_value,y_value,z_value,selector){
+
+	if (selector === undefined)
+		selector = S0
+
+	var base_points = [[-1,0,0],[-1,1.6,0],[1.6,1.6,0],[1.6,0,0],[1.6,-1.6,0],[-1,-1.6,0],[-1,0,0]];
+
+	var circle_points = scalePoints(base_points,r);
+
+	if (x_value !== 0)
+		circle_points = traslaPointsX(circle_points,x_value)
+	if (y_value !== 0)
+		circle_points = traslaPointsY(circle_points,y_value)
+	if (z_value !== 0)
+		circle_points = traslaPointsZ(circle_points,z_value)
+
+	return BEZIER(selector)(circle_points)
+}
+
+function invertSign(point){
+	return point.map(function(item){ return -item });
+}
+
+function wallWithHole(wallDepht,pmin,pmax,l_wall,h_wall){
+	var x1 = [ pmin[0], -(pmax[0]-pmin[0]) ];
+	if (l_wall-pmax[0]>0)
+		x1[2] = l_wall-pmax[0];
+
+	var z2 = [ pmin[1], -(pmax[1]-pmin[1]) ];
+	if (h_wall-pmax[1]>0)
+		z2[2] = h_wall-pmax[1];
+
+	var sg1 = SIMPLEX_GRID([x1,[wallDepht],[h_wall]]);
+	var sg2 = SIMPLEX_GRID([invertSign(x1),[wallDepht],z2]);
+
+	return STRUCT([sg1,sg2]);
+}
+
+/**
+	Fine
+**/
+
+
 function x(coord){
 	return coord[0];
 }
@@ -7,7 +156,6 @@ function y(coord){
 function z(u,v){
 
 	if (u>40 && v>50) return 0; //centro abitato
-	//else if (u>30 && u<45 && v>30 && v<40) return 0.2; //centro abitato
 	else if (u>30 && u<45 && v>20 && v<30) return 0.2; //centro abitato
 	else if (u>16 && u<25 && v>16 && v<25) return -(Math.pow(Math.cos(u),2)+Math.pow(Math.sin(v),2)); //lago
 	else if (u>30 && v>10 && v<30) return 0.2; //foresta
@@ -50,12 +198,15 @@ function cilynder(r,h){
 
 
 function albero(raggio,altezza){
+	var colori = [rgb([0,158,96]),rgb([0,153,0]),rgb([0,153,0])]
 	var albero_base = cilynder(raggio*0.5,altezza/3);
 	var albero_foglie = MAP(BEZIER(S1)([bezier_circle_not_centered_map(raggio,0,0,altezza/3),[0,0,altezza]]))(domain)
 	albero_foglie = STRUCT([albero_foglie, unifyBezierCurves(bezier_circle_not_centered_map(raggio*0.5,0,0,altezza/3),bezier_circle_not_centered_map(raggio,0,0,altezza/3))])
 
 	albero_base = COLOR(rgb([101,67,33]))(albero_base)
-	albero_foglie = COLOR(rgb([0,158,96]))(albero_foglie)
+
+	colore = colori[ parseInt(Math.random()*colori.length) ]
+	albero_foglie = COLOR(colore)(albero_foglie)
 
 	return STRUCT([albero_base,albero_foglie])
 }
@@ -106,6 +257,8 @@ draw(foreste)
 //Es4
 function generaCasa(x_dim,y_dim,h_dim){
 
+	var colori = [rgb([204, 51, 51]),rgb([204, 78, 92]),rgb([226, 114, 91]),rgb([178,34,34])]
+
 	base_h = h_dim*0.5
 	porta_tx = 0.37*x_dim
 	porta_x = 0.2*x_dim
@@ -140,7 +293,8 @@ function generaCasa(x_dim,y_dim,h_dim){
 	var tetto_2D = SIMPLICIAL_COMPLEX(tetto_vertici)(tetto_num_lati);
 	var tetto = EXTRUDE([y_dim+0.1])(tetto_2D);
 	tetto = T([1])([y_dim+0.1])(R([1,2])(PI/2)(tetto))
-	tetto = COLOR(rgb([178,34,34]))(tetto)
+	colore = colori[ parseInt(Math.random()*colori.length) ]
+	tetto = COLOR(colore)(tetto)
 
 	casa = STRUCT([casa,tetto,porta])
 

@@ -26,7 +26,7 @@ function convertToObjFormat(model){
 		});
 		output += tmp + "\n";
 	});
-
+	return output
 }
 
 //Esempio di test
@@ -49,5 +49,5 @@ V = [[0,6],
 [6,6],
 [3,6]]
 
-out = convertToObjFormat([V,FV]);
+var out = convertToObjFormat([V,FV]);
 console.log(out)
