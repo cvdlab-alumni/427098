@@ -93,4 +93,4 @@ coppia_ruote = STRUCT([T([1])([1.8])(ruota),T([1])([7])(ruota)])
 ruote = STRUCT([ T([2,3])([raggio_ruota,raggio_ruota]),T([2])([1])(coppia_ruote),T([2])([3.5])(coppia_ruote) ])
 
 
-#view([profili1,ruote])
+view([profili1,ruote])
