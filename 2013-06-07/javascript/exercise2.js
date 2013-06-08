@@ -33,6 +33,6 @@ draw(montagna)
 
 
 //Es2
-verdeAcqua = rgb([0,255,178])
-lago = COLOR(verdeAcqua)(SIMPLEX_GRID([[-15,11],[-15,11],[0.3]]))
+colore_acqua = rgb([0,255,255])
+lago = COLOR(colore_acqua)(SIMPLEX_GRID([[-15,11],[-15,11],[0.3]]))
 draw(lago)
