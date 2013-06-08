@@ -149,18 +149,45 @@ function generaCasa(x_dim,y_dim,h_dim){
 
 
 //Es5 (modifico il 4)
+//I metodi generaStradaOrizzontale e Verticale funzionano in singolo, ma non funzionano quando li utilizzo all'interno del modello
+//In alternativa uso generaStrada che mi riporta un semplice cuboid
 
 var distanza_case = 1;
 var casa_dim = 0.4;
 
 var dimensione_strada = 0.5
 
-function generaStrada(x_dim,y_dim,depth){
+function generaStrada(x_dim,y_dim){
 	var asfalto = COLOR(rgb([84,84,84]))(CUBOID([x_dim,y_dim,0.01]))
-// 	var segmento = COLOR([1,1,1])(CUBOID([0.1,0.2,0.01]))
-// 	segmento = R([0,2])(-PI/2)(segmento)
+
 	return asfalto
 }
+
+// function generaStradaOrizzontale(x_dim,y_dim){
+// 	var offset = 0.2
+// 	var asfalto = COLOR(rgb([84,84,84]))(CUBOID([x_dim,y_dim,0.01]))
+//  	var segmento = COLOR([1,0,0])(CUBOID([0.2,0.1,0.01]))
+//  	num_seg = (x_dim - offset)/(0.2+0.2)
+//  	console.log("entro or: x " + x_dim + " y " + y_dim + " num" + num_seg)
+
+//  	righe = STRUCT(REPLICA(num_seg)([segmento,T([0])([0.2+0.2])]))
+//  	var strada = STRUCT([asfalto, T([0,1,2])([offset,(y_dim-0.1)/2,0.001])(righe) ])
+// 	return strada
+
+// }
+
+// function generaStradaVerticale(x_dim,y_dim){
+// 	var offset = 0.2
+// 	var asfalto = COLOR(rgb([84,84,84]))(CUBOID([x_dim,y_dim,0.01]))
+//  	var segmento = COLOR([1,1,1])(CUBOID([0.1,0.2,0.01]))
+//  	num_seg = (y_dim - offset)/(0.2+0.2)
+//  	console.log("entro vert: x " + x_dim + " y " + y_dim + " num" + num_seg)
+//  	righe = STRUCT(REPLICA(num_seg)([segmento,T([1])([0.2+0.2])]))
+//  	var strada = STRUCT([asfalto, T([0,1,2])([(x_dim-0.1)/2,offset,0.001])(righe) ])
+// 	return strada
+
+// }
+
 
 
 function generaInsediamento(x_dim,y_dim,casa_x,casa_y,casa_z){
@@ -170,22 +197,6 @@ function generaInsediamento(x_dim,y_dim,casa_x,casa_y,casa_z){
 
 	function filaCase(){
 
-		// var rand_x = (Math.random() * 0.3) -0.05 + casa_x;
-		// var rand_z = (Math.random() * 0.3) -0.15 + casa_z;
-
-		// var x_occupato = rand_x+distanza_case+offset;
-		// var fila = STRUCT([T([0])([offset])(generaCasa(rand_x,casa_y,rand_z))]);
-
-		// while(x_occupato+offset<x_dim){
-
-		// 	rand_x = (Math.random() * 0.3) -0.05 + casa_x;
-		// 	rand_z = (Math.random() * 0.3) -0.15 + casa_z;
-		// 	fila = STRUCT([fila,T([0])([x_occupato])(generaCasa(rand_x,casa_y,rand_z))]);
-			
-		// 	x_occupato += rand_x + distanza_case;
-		// }
-
-		// return fila;
 		var rand_x = (Math.random() * 0.3) -0.05 + casa_x;
 		var rand_z = (Math.random() * 0.3) -0.15 + casa_z;
 
@@ -197,6 +208,7 @@ function generaInsediamento(x_dim,y_dim,casa_x,casa_y,casa_z){
 			rand_x = (Math.random() * 0.3) -0.05 + casa_x;
 			rand_z = (Math.random() * 0.3) -0.15 + casa_z;
 			fila = STRUCT([fila,T([0,1,2])([x_occupato-distanza_case+(distanza_case-dimensione_strada)/2,
+											//-distanza_case,0.001])(generaStradaVerticale(dimensione_strada,2*(casa_y+ 1.8*dimensione_strada)))
 											-distanza_case,0.001])(generaStrada(dimensione_strada,2*(casa_y+ 1.8*dimensione_strada)))
 				,T([0])([x_occupato])(generaCasa(rand_x,casa_y,rand_z))]);
 			
@@ -210,8 +222,8 @@ function generaInsediamento(x_dim,y_dim,casa_x,casa_y,casa_z){
 	var y_occupato = casa_x+2*distanza_case+offset
 
 	for (i=1; i<numero_file; i++){
-		// file_case = STRUCT([file_case,T([1])([y_occupato])(filaCase())])
 		file_case = STRUCT([file_case,T([1])([y_occupato])(filaCase()),
+						// T([1,2])([y_occupato-2*distanza_case+(2*distanza_case-dimensione_strada)/2,0.001])(generaStradaOrizzontale(x_dim,dimensione_strada))])
 						T([1,2])([y_occupato-2*distanza_case+(2*distanza_case-dimensione_strada)/2,0.001])(generaStrada(x_dim,dimensione_strada))])
 
 		
@@ -222,8 +234,10 @@ function generaInsediamento(x_dim,y_dim,casa_x,casa_y,casa_z){
 
 	function aggiungiStradaPerimetrale(cas){
 
-		s1 = generaStrada(x_dim+2*dimensione_strada,dimensione_strada,0.1)
-		s2 = generaStrada(dimensione_strada,y_dim+dimensione_strada,0.1)
+		// s1 = generaStradaOrizzontale(x_dim+2*dimensione_strada,dimensione_strada)
+		// s2 = generaStradaVerticale(dimensione_strada,y_dim+dimensione_strada)
+		s1 = generaStrada(x_dim+2*dimensione_strada,dimensione_strada)
+		s2 = generaStrada(dimensione_strada,y_dim+dimensione_strada)
 
 		file_case = STRUCT([cas,TC([2])([0.05]),TC([0,1])([-dimensione_strada,-dimensione_strada])(s1),
 			TC([0,1])([-dimensione_strada,y_dim])(s1),TC([0,1])([-dimensione_strada,-dimensione_strada])(s2),
@@ -236,9 +250,7 @@ function generaInsediamento(x_dim,y_dim,casa_x,casa_y,casa_z){
 
 
 
-// hideAll()
 insediamento1 = generaInsediamento(13,5,casa_dim,casa_dim,casa_dim)
-// insediamento1 = generaInsediamento(13,10,casa_dim,casa_dim,casa_dim)
 
 insediamento2 = generaInsediamento(25,5,casa_dim,casa_dim,casa_dim)
 
@@ -247,8 +259,6 @@ insediamento2 = T([0,1])([33,22])(insediamento2)
 
 insediamenti = STRUCT([T([2])([0.2]),insediamento1,insediamento2])
 
+
+
 draw(insediamenti)
-// draw(insediamento1)
-
-
-
