@@ -6,11 +6,10 @@ function y(coord){
 }
 function z(u,v){
 
-	if (u>30 && v>30) return 0; //centro abitato
-	//else if (u>10 && u<25 && v>10 && v<25) return 0.2; //lago
+	if (u>40 && v>50) return 0; //centro abitato
+	//else if (u>30 && u<45 && v>30 && v<40) return 0.2; //centro abitato
+	else if (u>30 && u<45 && v>20 && v<30) return 0.2; //centro abitato
 	else if (u>16 && u<25 && v>16 && v<25) return -(Math.pow(Math.cos(u),2)+Math.pow(Math.sin(v),2)); //lago
-	// else if (u>10 && u<25 && v>10 && v<25) return Math.abs((u*v)-(17))%3; //lago
-	//else if (u>10 && u<25 && v>10 && v<25) return ((u+v)*(u*v))%3 + 0.5; //lago
 	else if (u>30 && v>10 && v<30) return 0.2; //foresta
 	return (u+v)*(u*v)%5 + (Math.random() - 0.5);
 }
@@ -75,7 +74,7 @@ function generaForesta(area_x,area_y,albero_r,albero_h){
 }
 
 
-function filaAlberi(area_x,albero_r,albero_h){
+function filaAlberi(area_x,albero_r,albero_h){ //random per cambiare colore
 	var rand_r = (Math.random() * 0.5) -0.25 + albero_r;
 	var rand_h = (Math.random() * 0.5) -0.25 + albero_h;
 
@@ -148,4 +147,54 @@ function generaCasa(x_dim,y_dim,h_dim){
 	return casa;
 }
 
-draw(generaCasa(1,1,1)) // da fare un quarto/terzo
+//draw(generaCasa(1,1,2)) // da fare un quarto/terzo
+var distanza_case = 1;
+var casa_dim = 0.4;
+
+function generaInsediamento(x_dim,y_dim,casa_x,casa_y,casa_z){
+
+	var offset = 1
+	var numero_file = (y_dim-casa_y-offset)/(casa_y+2*distanza_case);
+
+	function filaCase(){
+
+		var rand_x = (Math.random() * 0.3) -0.05 + casa_x;
+		var rand_z = (Math.random() * 0.3) -0.15 + casa_z;
+
+		var x_occupato = rand_x+distanza_case+offset;
+		var fila = STRUCT([T([0])([offset])(generaCasa(rand_x,casa_y,rand_z))]);
+
+		while(x_occupato+offset<x_dim){
+
+			rand_x = (Math.random() * 0.3) -0.05 + casa_x;
+			rand_z = (Math.random() * 0.3) -0.15 + casa_z;
+			fila = STRUCT([fila,T([0])([x_occupato])(generaCasa(rand_x,casa_y,rand_z))]);
+			
+			x_occupato += rand_x + distanza_case;
+		}
+
+		return fila;
+	}
+
+	file_case = T([1])([offset])(filaCase())
+	var y_occupato = casa_x+2*distanza_case+offset
+
+	for (i=1; i<numero_file; i++){
+		file_case = STRUCT([file_case,T([1])([y_occupato])(filaCase())])
+		y_occupato += casa_x+2*distanza_case
+	}
+
+	file_case = STRUCT([COLOR(rgb([0,153,0]))(CUBOID([x_dim,y_dim,0.05])),T([2])([0.05])(file_case)])
+
+	return file_case;
+}
+
+insediamento1 = generaInsediamento(13,5,casa_dim,casa_dim,casa_dim)
+insediamento2 = generaInsediamento(25,5,casa_dim,casa_dim,casa_dim)
+
+insediamento1 = T([0,1])([44.5,53])(insediamento1)
+insediamento2 = T([0,1])([33,22])(insediamento2)
+
+insediamenti = STRUCT([T([2])([0.2]),insediamento1,insediamento2])
+
+draw(insediamenti)
