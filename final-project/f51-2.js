@@ -126,10 +126,11 @@ var x = 0;
 var y = 1;
 var z = 2;
 
-var dimension_x = 27.5;
+var dimension_x = 70;
 var dimension_y = 27.5;
 var dimension_z = 27.5;
-var cushion_color = [0.9,0,0];
+var cushion_black_color = rgb([40,40,40]);
+var cushion_white_color = rgb([300,300,300]);
 
 var chassis_thickness = 2;
 var chassis_depth = 3.5;
@@ -158,41 +159,65 @@ chassis = COLOR(rgb([40,40,40]))(chassis);
 
 
 //Seat cushion
+var seat_cushion1_x = 2*dimension_x/3;
+var seat_cushion2_x = dimension_x/3;
+
 var sc_left_back_p = [[0,chassis_y,0],[0,chassis_y,seat_cushion_z]];
 var sc_left_down_p = [[0,0,0],[0,chassis_y,0]];
 var sc_left_front_p = [[0,0,0],[0,-0.5,seat_cushion_z/2],[0,0,seat_cushion_z]];
 var sc_left_up_p = [[0,0,seat_cushion_z],[0,chassis_y/2,seat_cushion_z+0.8],[0,chassis_y,seat_cushion_z]];
 
-var sc_right_back_p = traslaPointsX(sc_left_back_p,dimension_x);
-var sc_right_down_p = traslaPointsX(sc_left_down_p,dimension_x);
-var sc_right_front_p = traslaPointsX(sc_left_front_p,dimension_x);
-var sc_right_up_p = traslaPointsX(sc_left_up_p,dimension_x);
+var sc_right_back_p1 = traslaPointsX(sc_left_back_p,seat_cushion1_x);
+var sc_right_down_p1 = traslaPointsX(sc_left_down_p,seat_cushion1_x);
+var sc_right_front_p1 = traslaPointsX(sc_left_front_p,seat_cushion1_x);
+var sc_right_up_p1 = traslaPointsX(sc_left_up_p,seat_cushion1_x);
+
+var sc_right_back_p2 = traslaPointsX(sc_left_back_p,seat_cushion2_x);
+var sc_right_down_p2 = traslaPointsX(sc_left_down_p,seat_cushion2_x);
+var sc_right_front_p2 = traslaPointsX(sc_left_front_p,seat_cushion2_x);
+var sc_right_up_p2 = traslaPointsX(sc_left_up_p,seat_cushion2_x);
 
 var sc_left_back_c = BEZIER(S0)(sc_left_back_p);
 var sc_left_down_c = BEZIER(S0)(sc_left_down_p);
 var sc_left_front_c = BEZIER(S0)(sc_left_front_p);
 var sc_left_up_c = BEZIER(S0)(sc_left_up_p);
  
-var sc_right_back_c = BEZIER(S0)(sc_right_back_p);
-var sc_right_down_c = BEZIER(S0)(sc_right_down_p);
-var sc_right_front_c = BEZIER(S0)(sc_right_front_p);
-var sc_right_up_c = BEZIER(S0)(sc_right_up_p);
+var sc_right_back_c1 = BEZIER(S0)(sc_right_back_p1);
+var sc_right_down_c1 = BEZIER(S0)(sc_right_down_p1);
+var sc_right_front_c1 = BEZIER(S0)(sc_right_front_p1);
+var sc_right_up_c1 = BEZIER(S0)(sc_right_up_p1);
+
+var sc_right_back_c2 = BEZIER(S0)(sc_right_back_p2);
+var sc_right_down_c2 = BEZIER(S0)(sc_right_down_p2);
+var sc_right_front_c2 = BEZIER(S0)(sc_right_front_p2);
+var sc_right_up_c2 = BEZIER(S0)(sc_right_up_p2);
 
 var sc_intermedied_up_p = [[0,0,seat_cushion_z],[0,chassis_y/2,seat_cushion_z+1.3],[0,chassis_y,seat_cushion_z]];
 var sc_intermedied_up_c = BEZIER(S0)(sc_intermedied_up_p);
 
-var seat_cushion = STRUCT([unifyBezierCurves(sc_left_back_c, sc_right_back_c),
-							unifyBezierCurves(sc_left_down_c, sc_right_down_c),
-							unifyBezierCurves(sc_left_front_c, sc_right_front_c),
-							MAP(BEZIER(S1)([sc_left_up_c,sc_intermedied_up_c,sc_right_up_c]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])),
+var seat_cushion1 = STRUCT([unifyBezierCurves(sc_left_back_c, sc_right_back_c1),
+							unifyBezierCurves(sc_left_down_c, sc_right_down_c1),
+							unifyBezierCurves(sc_left_front_c, sc_right_front_c1),
+							MAP(BEZIER(S1)([sc_left_up_c,sc_intermedied_up_c,sc_right_up_c1]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])),
 							unifyBezierCurves(sc_left_up_c, sc_left_down_c),
-							unifyBezierCurves(sc_right_up_c, sc_right_down_c),
+							unifyBezierCurves(sc_right_up_c1, sc_right_down_c1),
 							unifyBezierCurves(sc_left_front_c, sc_left_back_c),
-							unifyBezierCurves(sc_right_front_c, sc_right_back_c)]);
+							unifyBezierCurves(sc_right_front_c1, sc_right_back_c1)]);
+
+var seat_cushion2 = STRUCT([unifyBezierCurves(sc_left_back_c, sc_right_back_c2),
+							unifyBezierCurves(sc_left_down_c, sc_right_down_c2),
+							unifyBezierCurves(sc_left_front_c, sc_right_front_c2),
+							MAP(BEZIER(S1)([sc_left_up_c,sc_intermedied_up_c,sc_right_up_c2]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])),
+							unifyBezierCurves(sc_left_up_c, sc_left_down_c),
+							unifyBezierCurves(sc_right_up_c2, sc_right_down_c2),
+							unifyBezierCurves(sc_left_front_c, sc_left_back_c),
+							unifyBezierCurves(sc_right_front_c2, sc_right_back_c2)]);
+
+seat_cushion1 = COLOR(cushion_black_color)(seat_cushion1);
+seat_cushion2 = COLOR(cushion_white_color)(seat_cushion2);
 
 var seat_cushion_ztraslator = dimension_z-back_z+chassis_thickness;
-seat_cushion = TNC([z])([seat_cushion_ztraslator])(seat_cushion);
-seat_cushion = COLOR(cushion_color)(seat_cushion);
+var seat_cushions = TNC([z])([seat_cushion_ztraslator])(STRUCT([seat_cushion1,TNC([x])([seat_cushion1_x])(seat_cushion2)]));
 
 //Arms cushion
 var arm_cushion_z = dimension_z-chassis_z;
@@ -233,34 +258,45 @@ var arm_cushion = STRUCT([unifyBezierCurves(ac_front_down_c, ac_back_down_c),
 
 
 arm_cushion = TNC([z])([chassis_z])(arm_cushion);
-arm_cushion = COLOR(cushion_color)(arm_cushion);
-arm_cushions = STRUCT([arm_cushion,T([x])([dimension_x-chassis_depth])(arm_cushion)])
+arm_cushions = STRUCT([COLOR(cushion_white_color)(arm_cushion),T([x])([dimension_x-chassis_depth])(COLOR(cushion_black_color)(arm_cushion))])
 
 //Back cushion
 var seat_cushion_z_def = seat_cushion_z+dimension_z-back_z+chassis_thickness
 
 var back_cushion_delta_x = dimension_x-2*chassis_depth +0.8;
+var back_cushion_x1 = seat_cushion1_x-chassis_depth;
+var back_cushion_x2 = back_cushion_delta_x-back_cushion_x1;
 var back_cushion_p = adjustCurveFromCanvas([[0,0.23, 2.8],[0,0.28, 3.58],[0,0.3, 4],[0,0.72, 3.87]],[chassis_depth-0.4,chassis_y,seat_cushion_z_def],[chassis_depth,dimension_y,dimension_z]);
-var back_cushion_end_p = traslaPointsX(back_cushion_p,back_cushion_delta_x);
+var back_cushion_end_p1 = traslaPointsX(back_cushion_p,back_cushion_x1);
+var back_cushion_end_p2 = traslaPointsX(back_cushion_p,back_cushion_x2);
 
 var back_cushion_back_p = [[chassis_depth-0.4,dimension_y,seat_cushion_ztraslator],[chassis_depth-0.4,dimension_y,dimension_z]];
-var back_cushion_back_end_p = traslaPointsX(back_cushion_back_p,back_cushion_delta_x)
+var back_cushion_back_end_p1 = traslaPointsX(back_cushion_back_p,back_cushion_x1);
+var back_cushion_back_end_p2 = traslaPointsX(back_cushion_back_p,back_cushion_x2);
 
 var back_cushion_down_p = [[chassis_depth-0.4,chassis_y,seat_cushion_ztraslator],[chassis_depth-0.4,dimension_y,seat_cushion_ztraslator]];
-var back_cushion_down_end_p = traslaPointsX(back_cushion_down_p,back_cushion_delta_x)
+var back_cushion_down_end_p1 = traslaPointsX(back_cushion_down_p,back_cushion_x1);
+var back_cushion_down_end_p2 = traslaPointsX(back_cushion_down_p,back_cushion_x2);
 
 var back_cushion_c = BEZIER(S0)(back_cushion_p);
-var back_cushion_end_c = BEZIER(S0)(back_cushion_end_p);
+var back_cushion_end_c1 = BEZIER(S0)(back_cushion_end_p1);
+var back_cushion_end_c2 = BEZIER(S0)(back_cushion_end_p2);
 var back_cushion_back_c = BEZIER(S0)(back_cushion_back_p);
-var back_cushion_back_end_c = BEZIER(S0)(back_cushion_back_end_p);
+var back_cushion_back_end_c1 = BEZIER(S0)(back_cushion_back_end_p1);
+var back_cushion_back_end_c2 = BEZIER(S0)(back_cushion_back_end_p2);
 var back_cushion_down_c = BEZIER(S0)(back_cushion_down_p);
-var back_cushion_down_end_c = BEZIER(S0)(back_cushion_down_end_p);
+var back_cushion_down_end_c1 = BEZIER(S0)(back_cushion_down_end_p1);
+var back_cushion_down_end_c2 = BEZIER(S0)(back_cushion_down_end_p2);
 
-var back_cushion_central = STRUCT([unifyBezierCurves(back_cushion_c,back_cushion_end_c),
-									unifyBezierCurves(back_cushion_back_c,back_cushion_back_end_c),
-									unifyBezierCurves(back_cushion_down_c,back_cushion_down_end_c)
-									]);
+var back_cushion_central1 = STRUCT([unifyBezierCurves(back_cushion_c,back_cushion_end_c1),
+									unifyBezierCurves(back_cushion_back_c,back_cushion_back_end_c1),
+									unifyBezierCurves(back_cushion_down_c,back_cushion_down_end_c1)]);
 
+var back_cushion_central2 = STRUCT([unifyBezierCurves(back_cushion_c,back_cushion_end_c2),
+									unifyBezierCurves(back_cushion_back_c,back_cushion_back_end_c2),
+									unifyBezierCurves(back_cushion_down_c,back_cushion_down_end_c2)]);
+
+var back_cushion_central = STRUCT([COLOR(cushion_white_color)(back_cushion_central1), TNC([x])([back_cushion_x1])(COLOR(cushion_black_color)(back_cushion_central2))]);
 
 var back_cushion_plx = chassis_depth;
 var back_cushion_ply = dimension_y-chassis_y-chassis_thickness;
@@ -269,14 +305,10 @@ var back_cushion_pl = CUBOID([back_cushion_plx,back_cushion_ply,back_cushion_plz
 
 var back_cushion = STRUCT([ back_cushion_central,
 							T([z])([seat_cushion_ztraslator]),
-							T([y])([dimension_y-back_cushion_ply]), back_cushion_pl,
-							T([x])([dimension_x-chassis_depth])(back_cushion_pl)]);
-
-back_cushion = COLOR(cushion_color)(back_cushion);
+							T([y])([dimension_y-back_cushion_ply]), COLOR(cushion_white_color)(back_cushion_pl),
+							COLOR(cushion_black_color)(T([x])([dimension_x-chassis_depth])(back_cushion_pl))]);
 
 
-
-
-var model = STRUCT([back_cushion,chassis,seat_cushion,arm_cushions]);
+var model = STRUCT([back_cushion,chassis,seat_cushions,arm_cushions]);
 
 draw(model);
