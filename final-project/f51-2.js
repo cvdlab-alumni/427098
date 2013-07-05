@@ -192,13 +192,15 @@ var sc_right_down_c2 = BEZIER(S0)(sc_right_down_p2);
 var sc_right_front_c2 = BEZIER(S0)(sc_right_front_p2);
 var sc_right_up_c2 = BEZIER(S0)(sc_right_up_p2);
 
-var sc_intermedied_up_p = [[0,0,seat_cushion_z],[0,chassis_y/2,seat_cushion_z+1.3],[0,chassis_y,seat_cushion_z]];
-var sc_intermedied_up_c = BEZIER(S0)(sc_intermedied_up_p);
+var sc_intermedied_up_p1 = [[seat_cushion1_x/2,0,seat_cushion_z],[seat_cushion1_x/5,chassis_y/2,seat_cushion_z+3],[3*seat_cushion1_x/5,chassis_y/2,seat_cushion_z+3],[seat_cushion1_x/2,chassis_y,seat_cushion_z]];
+var sc_intermedied_up_p2 = [[seat_cushion2_x/2,0,seat_cushion_z],[seat_cushion2_x/5,chassis_y/2,seat_cushion_z+3],[seat_cushion2_x/5,chassis_y/2,seat_cushion_z+3],[seat_cushion2_x/2,chassis_y,seat_cushion_z]];
+var sc_intermedied_up_c1 = BEZIER(S0)(sc_intermedied_up_p1);
+var sc_intermedied_up_c2 = BEZIER(S0)(sc_intermedied_up_p2);
 
 var seat_cushion1 = STRUCT([unifyBezierCurves(sc_left_back_c, sc_right_back_c1),
 							unifyBezierCurves(sc_left_down_c, sc_right_down_c1),
 							unifyBezierCurves(sc_left_front_c, sc_right_front_c1),
-							MAP(BEZIER(S1)([sc_left_up_c,sc_intermedied_up_c,sc_right_up_c1]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])),
+							MAP(BEZIER(S1)([sc_left_up_c,sc_intermedied_up_c1,sc_right_up_c1]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])),
 							unifyBezierCurves(sc_left_up_c, sc_left_down_c),
 							unifyBezierCurves(sc_right_up_c1, sc_right_down_c1),
 							unifyBezierCurves(sc_left_front_c, sc_left_back_c),
@@ -207,7 +209,7 @@ var seat_cushion1 = STRUCT([unifyBezierCurves(sc_left_back_c, sc_right_back_c1),
 var seat_cushion2 = STRUCT([unifyBezierCurves(sc_left_back_c, sc_right_back_c2),
 							unifyBezierCurves(sc_left_down_c, sc_right_down_c2),
 							unifyBezierCurves(sc_left_front_c, sc_right_front_c2),
-							MAP(BEZIER(S1)([sc_left_up_c,sc_intermedied_up_c,sc_right_up_c2]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])),
+							MAP(BEZIER(S1)([sc_left_up_c,sc_intermedied_up_c2,sc_right_up_c2]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])),
 							unifyBezierCurves(sc_left_up_c, sc_left_down_c),
 							unifyBezierCurves(sc_right_up_c2, sc_right_down_c2),
 							unifyBezierCurves(sc_left_front_c, sc_left_back_c),
