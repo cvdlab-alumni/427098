@@ -129,7 +129,7 @@ var z = 2;
 var dimension_x = 27.5;
 var dimension_y = 27.5;
 var dimension_z = 27.5;
-var cushion_color = [0.9,0,0];
+var cushion_color = [0.7,0,0];
 
 var chassis_thickness = 2;
 var chassis_depth = 3.5;
