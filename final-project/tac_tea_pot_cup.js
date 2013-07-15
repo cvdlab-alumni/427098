@@ -24,10 +24,83 @@ function addYValue(points, y){
 	});
 }
 
-var plate_points = addYValue([[0.23, 1.68], [1.17, 1.19], [1.89, 1.13], [3.11, 1.18]],0);
+function rotateProfileNoTraslate(points){
+	var area_domain = PROD1x1([INTERVALS(1)(128),INTERVALS(1)(128)]);
+	var curve_map = BEZIER(S0)(points);
+	return MAP(PROFILEPROD_SURFACE([curve_map,bezier_circle_map(1,S1)]))(area_domain);
+}
 
-var plate_curve = BEZIER(S0)(plate_points);
-var plate = MAP(plate_curve)(ROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])]);
+function bezier_circle(r){
+	return MAP(bezier_circle_map(r))(INTERVALS(1)(64));
+}
 
+function bezier_circle_map(r,selector){
+
+	if (selector === undefined)
+		selector = S0
+
+	var base_points = [[-1,0,0],[-1,1.6,0],[1.6,1.6,0],[1.6,0,0],[1.6,-1.6,0],[-1,-1.6,0],[-1,0,0]];
+	var circle_points = scalePoints(base_points,r);
+	return BEZIER(selector)(circle_points)
+}
+
+var scalePoints = function(points,values) {
+	return points.map(function(item){
+		return item.map(function(elem){
+			return elem*values;
+		});
+	});
+}
+
+function traslaPointsX(points,value){
+	return points.map(function(item){
+		return [item[0]+value,item[1],item[2]];
+	});
+}
+
+
+
+
+var line_domain = INTERVALS(1)(32)
+var area_domain = PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])
+
+var plate_color_p1 = rgb([60,60,60]);
+var plate_color_p2 = rgb([58,58,58]);
+var cup_color = rgb([300,300,300]);
+
+var cup_points = addYValue([[3.86, 1.24], [4.33, 1.32], [5.22, 2.14], [5.11, 3.09]],0);
+var cup_base_traslate = 3.21;
+cup_points = traslaPointsX(cup_points,-cup_base_traslate);
+
+var cup_external = STRUCT([rotateProfileNoTraslate(cup_points),TNC([2])([minValueCoordinate(cup_points,2)])(circle(3.86-cup_base_traslate+0.05))]); 
+
+
+
+cup_external = COLOR(cup_color)(cup_external)
+
+//var plate_points = addYValue([[6.06, 1.78], [5.46, 1.35], [4.6, 1.19], [3.74, 1.2]],0);
+//var plate_points = addYValue([[3.74,1.0],[4.6,0.99],[5.46,1.15],[6.06,1.58],[6.06, 1.78], [5.46, 1.35], [4.6, 1.19], [3.74, 1.2]],0);
+var plate_points = addYValue([[3.74,0.80],[4.6,0.79],[5.46,0.75],[6.06,1.38],[6.06, 1.58], [5.46, 1.15], [4.6, 0.99], [3.74, 1.0]],0);
+var plate_base_traslate = 3.15;
+plate_points = traslaPointsX(plate_points,-plate_base_traslate);
+
+// var plate = STRUCT([ rotateProfileNoTraslate(plate_points),
+// 						TNC([2])([minValueCoordinate(plate_points,2)+0.05])(circle(3.74-plate_base_traslate+0.05))]);
+// plate = SNC([0,1,2])([1.25,1.25,1.25])(plate);
+// plate = COLOR(plate_color)(plate);
+
+var plate_p1 = rotateProfileNoTraslate(plate_points);
+var plate_p2 = TNC([2])([minValueCoordinate(plate_points,2)+0.045])(circle(3.74-plate_base_traslate+0.05));
+
+plate_p1 = COLOR(plate_color_p1)(plate_p1);
+plate_p2 = COLOR(plate_color_p2)(plate_p2);
+
+var plate = STRUCT([plate_p1,plate_p2]);
+
+plate = SNC([0,1,2])([1.25,1.25,1.25])(plate);
+
+
+
+
+draw(cup_external)
 draw(plate)
-
