@@ -160,7 +160,7 @@ chassis = COLOR(rgb([40,40,40]))(chassis);
 
 //Seat cushion
 var seat_cushion1_x = 2*dimension_x/3;
-var seat_cushion2_x = dimension_x/3;
+var seat_cushion2_x = dimension_x - seat_cushion1_x;
 
 var sc_left_back_p = [[0,chassis_y,0],[0,chassis_y,seat_cushion_z]];
 var sc_left_down_p = [[0,0,0],[0,chassis_y,0]];
@@ -266,7 +266,7 @@ arm_cushions = STRUCT([COLOR(cushion_white_color)(arm_cushion),T([x])([dimension
 var seat_cushion_z_def = seat_cushion_z+dimension_z-back_z+chassis_thickness
 
 var back_cushion_delta_x = dimension_x-2*chassis_depth +0.8;
-var back_cushion_x1 = seat_cushion1_x-chassis_depth;
+var back_cushion_x1 = seat_cushion1_x-chassis_depth + 0.3;
 var back_cushion_x2 = back_cushion_delta_x-back_cushion_x1;
 var back_cushion_p = adjustCurveFromCanvas([[0,0.23, 2.8],[0,0.28, 3.58],[0,0.3, 4],[0,0.72, 3.87]],[chassis_depth-0.4,chassis_y,seat_cushion_z_def],[chassis_depth,dimension_y,dimension_z]);
 var back_cushion_end_p1 = traslaPointsX(back_cushion_p,back_cushion_x1);
