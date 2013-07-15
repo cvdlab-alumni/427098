@@ -1,3 +1,72 @@
+var drawable_objects = [];
+
+function draw(obj){
+	drawable_objects.push(obj);
+	DRAW(obj);
+}
+
+
+function hide(obj){
+	drawable_objects = drawable_objects.filter( function(item){
+		return item !== obj;
+	});
+	HIDE(obj);
+}
+
+function hideAll(){
+	while(drawable_objects.length>0)
+		HIDE(drawable_objects.pop());	
+}
+
+function rgb(color){
+	return [color[0]/255, color[1]/255, color[2]/255];
+}
+
+//Richiama l'omonima funzione senza clone
+function TNC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().translate(dims, values);
+      };
+    };
+  }
+
+//Richiama l'omonima funzione senza clone
+function RNC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().rotate(dims, values);
+      };
+    };
+  }
+
+//Richiama l'omonima funzione senza clone
+function SNC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().scale(dims, values);
+      };
+    };
+  }
+
+function traslaPointsZ(points,value){
+	return points.map(function(item){
+		return [item[0],item[1],item[2]+value];
+	});
+}
+
+function traslaPointsY(points,value){
+	return points.map(function(item){
+		return [item[0],item[1]+value,item[2]];
+	});
+}
+
+function traslaPointsX(points,value){
+	return points.map(function(item){
+		return [item[0]+value,item[1],item[2]];
+	});
+}
+
 function nubs_circonference_control_point_xy(r){
 	var points = [[0,-1,0],[0.33,-0.966,0],[0.7,-0.733,0],[0.966,-0.33,0],[1,0,0],[0.966,0.33,0],[0.7,0.733,0],[0.33,0.966,0],
 					[0,1,0],[-0.33,0.966,0],[-0.7,0.733,0],[-0.966,0.33,0],[-1,0,0],[-0.966,-0.33,0],[-0.7,-0.733,0],[-0.33,-0.966,0],[0,-1,0]];
