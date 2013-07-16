@@ -18,11 +18,23 @@ function hideAll(){
 		HIDE(drawable_objects.pop());	
 }
 
+function rgb(color){
+	return [color[0]/255, color[1]/255, color[2]/255];
+}
+
 function addYValue(points, y){
 	return points.map(function(item){
 		return [item[0],y,item[1]];
 	});
 }
+
+function TNC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().translate(dims, values);
+      };
+    };
+  }
 
 function rotateProfileNoTraslate(points){
 	var area_domain = PROD1x1([INTERVALS(1)(128),INTERVALS(1)(128)]);
