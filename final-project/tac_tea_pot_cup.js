@@ -207,5 +207,4 @@ plate = SNC([0,1,2])([1.25,1.25,1.25])(plate);
 //Model Assembly
 
 var cup = STRUCT([cup_external,plate,handle]);
-
 draw(cup)
