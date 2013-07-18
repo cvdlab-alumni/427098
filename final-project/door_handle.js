@@ -92,12 +92,41 @@ var lock = STRUCT([ lock_front,lock_back,
 					unifyBezierCurves(handle_down_curve, handle_down_curve_t),
 					unifyBezierCurves(handle_up_curve, handle_up_curve_t) ]);
 
+// Screws - Da rendere spaccati
+
+var screw_r = 0.035;
+var screw_h = 0.02;
+var screw = MAP(BEZIER(S1)([ bezier_circle_map(screw_r),
+							 bezier_circle_not_centered_map(screw_r,0,0,screw_h/2), 
+							 bezier_circle_not_centered_map(0.8*screw_r,0,0,0.9*screw_h), 
+							 [0,0,screw_h]  ]))(area_domain);
+
+screw = RNC([1,2])(PI/2)(screw)
+var screws_front = STRUCT([ T([0,2])([0.82, 3.37])(screw),T([0,2])([0.37, 3.39])(screw),
+						T([0,2])([0.81, 0.43])(screw),T([0,2])([0.38, 0.42])(screw) ]);
+
+screw_bc = RNC([1,2])(PI)(screw)
+var screws_back = STRUCT([ T([0,1,2])([0.82, depth, 3.37])(screw_bc),T([0,1,2])([0.37, depth, 3.39])(screw_bc),
+						T([0,1,2])([0.81, depth, 0.43])(screw_bc),T([0,1,2])([0.38, depth, 0.42])(screw_bc) ]);
+
+var screws = STRUCT([screws_back,screws_front])
+
+draw(screws)
+
+
+
+
+
+
+
+
+
+
+
+
 draw(lock)
 
-drawBezier(lock_left_profile1)
-drawBezier(lock_left_profile2)
-drawBezier(lock_right_profile1)
-drawBezier(lock_right_profile2)
+
 
 
 
