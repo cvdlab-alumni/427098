@@ -1,4 +1,117 @@
 
+var drawable_objects = [];
+
+function draw(obj){
+	drawable_objects.push(obj);
+	DRAW(obj);
+}
+
+
+function hide(obj){
+	drawable_objects = drawable_objects.filter( function(item){
+		return item !== obj;
+	});
+	HIDE(obj);
+}
+
+function hideAll(){
+	while(drawable_objects.length>0)
+		HIDE(drawable_objects.pop());	
+}
+
+function addYValue(points, y){
+	return points.map(function(item){
+		return [item[0],y,item[1]];
+	});
+}
+
+function traslaPointsY(points,value){
+	return points.map(function(item){
+		return [item[0],item[1]+value,item[2]];
+	});
+}
+
+function unifyBezierCurves(map_curve_1,map_curve_2){
+	return MAP(BEZIER(S1)([map_curve_1,map_curve_2]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)]));
+}
+
+function bezier_circle_map(r,selector){
+
+	if (selector === undefined)
+		selector = S0
+
+	var base_points = [[-1,0,0],[-1,1.6,0],[1.6,1.6,0],[1.6,0,0],[1.6,-1.6,0],[-1,-1.6,0],[-1,0,0]];
+
+	var circle_points = scalePoints(base_points,r);
+
+	return BEZIER(selector)(circle_points)
+}
+
+var scalePoints = function(points,values) {
+	return points.map(function(item){
+		return item.map(function(elem){
+			return elem*values;
+		});
+	});
+}
+
+
+function bezier_circle_not_centered_map(r,x_value,y_value,z_value,selector){
+
+	if (selector === undefined)
+		selector = S0
+
+	var base_points = [[-1,0,0],[-1,1.6,0],[1.6,1.6,0],[1.6,0,0],[1.6,-1.6,0],[-1,-1.6,0],[-1,0,0]];
+
+	var circle_points = scalePoints(base_points,r);
+
+	if (x_value !== 0)
+		circle_points = traslaPointsX(circle_points,x_value)
+	if (y_value !== 0)
+		circle_points = traslaPointsY(circle_points,y_value)
+	if (z_value !== 0)
+		circle_points = traslaPointsZ(circle_points,z_value)
+
+	return BEZIER(selector)(circle_points)
+}
+
+function traslaPointsZ(points,value){
+	return points.map(function(item){
+		return [item[0],item[1],item[2]+value];
+	});
+}
+
+//Richiama l'omonima funzione senza clone
+function TNC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().translate(dims, values);
+      };
+    };
+  }
+
+//Richiama l'omonima funzione senza clone
+function RNC(dims) {
+    return function (values) {
+      return function (object) {
+       return object.clone().rotate(dims, values);
+      };
+    };
+  }
+
+function cilynder(r,h){
+	return EXTRUDE([h])(DISK(r)([64, 2]))
+}
+
+function rgb(color){
+	return [color[0]/255, color[1]/255, color[2]/255];
+}
+
+
+
+
+
+
 var line_domain = INTERVALS(1)(32);
 var area_domain = PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)]);
 
@@ -111,28 +224,85 @@ var screws_back = STRUCT([ T([0,1,2])([0.82, depth, 3.37])(screw_bc),T([0,1,2])(
 
 var screws = STRUCT([screws_back,screws_front])
 
-draw(screws)
+
+//Handle part
+var handle_cily_h = 0.02;
+var handle_cily_r = 0.18;
+var handle_cily_1 = R([1,2])(PI/2)(cilynder(handle_cily_r, handle_cily_h));
+
+var handle_cily_up = [[-0.0828,0,0.1376],[-0.0508,0,0.1528],[0.066,0,0.1464],[0.0716,0,0.1376]];
+var handle_cily_down = [[0.07,0,-0.1304],[0.03,0,-0.1488],[-0.0684,0,-0.14],[-0.0828,0,-0.1288]] ;
+var handle_cily_left1 = [[-0.1588,0,0.004],[-0.1612,0,0.0792],[-0.1108,0,0.1208],[-0.0828,0,0.1384]];
+var handle_cily_left2 = [[-0.1588,0,0.004],[-0.1564,0,-0.0352],[-0.1212,0,-0.1144],[-0.0828,0,-0.1288]];
+var handle_cily_right1 = [[0.0724,0,0.136],[0.1116,0,0.128],[0.158,0,0.0184],[0.1476,0,0.0016]];
+var handle_cily_right2 = [[0.07,0,-0.1304],[0.0908,0,-0.1272],[0.158,0,-0.0296],[0.1476,0,0.0016]];
+
+var handle_cily_up_curve = BEZIER(S0)(handle_cily_up);
+var handle_cily_down_curve = BEZIER(S0)(handle_cily_down);
+var handle_cily_left1_curve = BEZIER(S0)(handle_cily_left1);
+var handle_cily_left2_curve = BEZIER(S0)(handle_cily_left2);
+var handle_cily_right1_curve = BEZIER(S0)(handle_cily_right1);
+var handle_cily_right2_curve = BEZIER(S0)(handle_cily_right2);
+
+var handle_cily_h2 = 0.05;
+var handle_cily_up_t = traslaPointsY(handle_cily_up,handle_cily_h2);
+var handle_cily_down_t = traslaPointsY(handle_cily_down,handle_cily_h2);
+var handle_cily_left1_t = traslaPointsY(handle_cily_left1,handle_cily_h2);
+var handle_cily_left2_t = traslaPointsY(handle_cily_left2,handle_cily_h2);
+var handle_cily_right1_t = traslaPointsY(handle_cily_right1,handle_cily_h2);
+var handle_cily_right2_t = traslaPointsY(handle_cily_right2,handle_cily_h2);
+
+var handle_cily_up_curve_t = BEZIER(S0)(handle_cily_up_t);
+var handle_cily_down_curve_t = BEZIER(S0)(handle_cily_down_t);
+var handle_cily_left1_curve_t = BEZIER(S0)(handle_cily_left1_t);
+var handle_cily_left2_curve_t = BEZIER(S0)(handle_cily_left2_t);
+var handle_cily_right1_curve_t = BEZIER(S0)(handle_cily_right1_t);
+var handle_cily_right2_curve_t = BEZIER(S0)(handle_cily_right2_t);
+
+var handle_cily = STRUCT([  //front
+							MAP(BEZIER(S1)([handle_cily_up_curve,[0,0,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_down_curve,[0,0,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_left1_curve,[0,0,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_left2_curve,[0,0,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_right1_curve,[0,0,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_right2_curve,[0,0,0]]))(area_domain),
+							//back
+							MAP(BEZIER(S1)([handle_cily_up_curve_t,[0,handle_cily_h2,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_down_curve_t,[0,handle_cily_h2,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_left1_curve_t,[0,handle_cily_h2,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_left2_curve_t,[0,handle_cily_h2,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_right1_curve_t,[0,handle_cily_h2,0]]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_right2_curve_t,[0,handle_cily_h2,0]]))(area_domain), 
+							//conjuction
+							MAP(BEZIER(S1)([handle_cily_up_curve,handle_cily_up_curve_t]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_down_curve,handle_cily_down_curve_t]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_left1_curve,handle_cily_left1_curve_t]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_left2_curve,handle_cily_left2_curve_t]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_right1_curve,handle_cily_right1_curve_t]))(area_domain),
+							MAP(BEZIER(S1)([handle_cily_right2_curve,handle_cily_right2_curve_t]))(area_domain) 
+						]);
+
+
+var handle_cily2 = R([0,2])(PI/4)(handle_cily);
+var handle_p2_z = 2*(handle_cily_r-0.03);
+var handle_p2 = STRUCT([ CUBOID([handle_p2_z,0.25,handle_p2_z]),
+						 TNC([1])([-0.25]),CUBOID([0.6,0.25,handle_p2_z]),
+						 TNC([0,1,2])([0.6,handle_p2_z/2,handle_p2_z/2])(RNC([0,2])(PI/2)(  COLOR(rgb([30,30,30]))(cilynder(0.7*handle_p2_z,1.2))) ) ])
+
+
+var handle = STRUCT([  TNC([0,1,2])([0.58, -handle_cily_h2,2.44]),TNC([1])([2*handle_cily_h2 - handle_cily_h-0.02])(handle_cily_1),
+					   TNC([1])([-handle_cily_h2])(handle_cily),handle_cily2, TNC([0,1,2])([-handle_cily_r+0.01,-0.3,-handle_cily_r+0.01])(handle_p2)]);
+
+handle_rotate = RNC([1,2])(PI)( T([0,1,2])([-0.6,-0.015,-2.45])(handle) )
+
+var model = STRUCT([lock,screws,handle,T([0,1,2])([0.6,depth,2.45])(handle_rotate)])
 
 
 
+//draw with door
+var door_color = rgb([150, 75, 0]);
+var door = STRUCT([SIMPLEX_GRID([[0.28,-0.6,7],[depth],[15]]),SIMPLEX_GRID([[-0.28,0.6],[depth],[5.35,-3.13,6.52]])]);
+door = COLOR(door_color)(door)
+var door_complete = STRUCT([door,TNC([2])([5])(model)])
 
-
-
-
-
-
-
-
-
-draw(lock)
-
-
-
-
-
-
-
-
-
-
-
+draw(door_complete)
