@@ -111,14 +111,23 @@ var beak_centered2_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoi
 var beak_centered3_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile3_external,beak_increase2), -0.47), -0.02), 0.2);
 
 
-var beak_increase2 = 5;
-var beak_end = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
-var beak_end2 = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile2,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
-var beak_end3 = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile3,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
-var beak_end_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile_external,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
-var beak_end2_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile2_external,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
-var beak_end3_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile3_external,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
+// var beak_increase2 = 5;
+// var beak_end = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
+// var beak_end2 = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile2,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
+// var beak_end3 = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile3,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
+// var beak_end_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile_external,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
+// var beak_end2_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile2_external,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
+// var beak_end3_external = traslaPointsZ(traslaPointsY(traslaPointsX(scalePoints(beak_profile3_external,beak_increase2), 0.8*9), -0.02*9), -0.7*9);
 
+var beak_end = [[1.21, -0.05,1.42], [1.4, -0.15,1.9], [1.64, -0.2,2.14], [2.28, -0.3,2.43]];
+var beak_end2 = [[1.21, 0.05,1.42], [1.4, 0.15,1.9], [1.64, 0.2,2.14], [2.28, 0.3,2.43]];
+var beak_end3 = [[2.28, -0.3,2.43], [2.18,-0.1,2.43],[2.18,0.1,2.43],[2.28, 0.3,2.43]];
+beak_end = traslaPointsX(beak_end, traslate_x+0.1);
+beak_end = traslaPointsZ(beak_end, traslate_z+0.15);
+beak_end2 = traslaPointsX(beak_end2, traslate_x+0.1);
+beak_end2 = traslaPointsZ(beak_end2, traslate_z+0.15);
+beak_end3 = traslaPointsX(beak_end3, traslate_x+0.1);
+beak_end3 = traslaPointsZ(beak_end3, traslate_z+0.15);
 
 
 var beak_curve = BEZIER(S0)(beak_profile);
@@ -136,10 +145,9 @@ var beak_centered3_curve_external = BEZIER(S0)(beak_centered3_external);
 var beak_end_curve = BEZIER(S0)(beak_end);
 var beak_end2_curve = BEZIER(S0)(beak_end2);
 var beak_end3_curve = BEZIER(S0)(beak_end3);
-var beak_end_curve_external = BEZIER(S0)(beak_end_external);
-var beak_end2_curve_external = BEZIER(S0)(beak_end2_external);
-var beak_end3_curve_external = BEZIER(S0)(beak_end3_external);
-
+// var beak_end_curve_external = BEZIER(S0)(beak_end_external);
+// var beak_end2_curve_external = BEZIER(S0)(beak_end2_external);
+// var beak_end3_curve_external = BEZIER(S0)(beak_end3_external);
 
 var beak = STRUCT([ MAP(BEZIER(S1)([ beak_curve, beak_curve_external]))(area_domain),
 					MAP(BEZIER(S1)([ beak_curve2, beak_curve2_external]))(area_domain),
@@ -147,10 +155,21 @@ var beak = STRUCT([ MAP(BEZIER(S1)([ beak_curve, beak_curve_external]))(area_dom
 					MAP(BEZIER(S1)([ beak_curve,beak_centered_curve,beak_end_curve ]))(area_domain),
 					MAP(BEZIER(S1)([ beak_curve2,beak_centered2_curve,beak_end2_curve ]))(area_domain),
 					MAP(BEZIER(S1)([ beak_curve3,beak_centered3_curve,beak_end3_curve ]))(area_domain),
-					MAP(BEZIER(S1)([ beak_curve_external,beak_centered_curve_external,beak_end_curve_external ]))(area_domain),
-					MAP(BEZIER(S1)([ beak_curve2_external,beak_centered2_curve_external,beak_end2_curve_external ]))(area_domain),
-					MAP(BEZIER(S1)([ beak_curve3_external,beak_centered3_curve_external,beak_end3_curve_external ]))(area_domain)
+					MAP(BEZIER(S1)([ beak_curve_external,beak_centered_curve_external,beak_end_curve ]))(area_domain),
+					MAP(BEZIER(S1)([ beak_curve2_external,beak_centered2_curve_external,beak_end2_curve ]))(area_domain),
+					MAP(BEZIER(S1)([ beak_curve3_external,beak_centered3_curve_external,beak_end3_curve ]))(area_domain)
 					]);
+
+// var beak = STRUCT([ MAP(BEZIER(S1)([ beak_curve, beak_curve_external]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve2, beak_curve2_external]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve3, beak_curve3_external]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve,beak_centered_curve,beak_end_curve ]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve2,beak_centered2_curve,beak_end2_curve ]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve3,beak_centered3_curve,beak_end3_curve ]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve_external,beak_centered_curve_external,beak_end_curve_external ]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve2_external,beak_centered2_curve_external,beak_end2_curve_external ]))(area_domain),
+// 					MAP(BEZIER(S1)([ beak_curve3_external,beak_centered3_curve_external,beak_end3_curve_external ]))(area_domain)
+// 					]);
 
 drawBezier(beak_profile)
 drawBezier(beak_profile2)
@@ -167,11 +186,11 @@ drawBezier(beak_centered3_external)
 drawBezier(beak_end)
 drawBezier(beak_end2)
 drawBezier(beak_end3)
-drawBezier(beak_end_external)
-drawBezier(beak_end2_external)
-drawBezier(beak_end3_external)
+//drawBezier(beak_end_external)
+//drawBezier(beak_end2_external)
+//drawBezier(beak_end3_external)
 
-draw(beak)
+//draw(beak)
 
 // var beak_to_pot = [[1.14, 0.03, 1.52], [1.5, -0.01, 2.02], [1.54, -0.03, 2.03], [2.26, -0.05, 2.43]];
 // var beak_to_pot2 = [[1.14, 0.03, 1.52], [1.5, 0.07, 2.02], [1.54, 0.09, 2.03], [2.26, 0.11, 2.43]];
@@ -205,9 +224,65 @@ draw(beak)
 // 					unifyBezierCurves(beak_curve3_external,beak_to_pot3_curve) ]);
 
 
+// Handle
+var handle_points11 = addYValue([[3.73, 2.85], [3.01, 3.21], [3.09, 3.02], [3.02, 2.61]],0);
+var handle_points12 = addYValue([[3.73, 2.85], [4.39, 2.55], [4.31, 2.32], [4.08, 2.08]],0);
+var handle_points13 = addYValue([[3.66, 1.82], [3.84, 1.9], [3.94, 1.99], [4.08, 2.08]],0);
+
+var handle_points21 = addYValue([[3.7, 2.77], [3.02, 3.09], [3.15, 2.84], [3.11, 2.56]],0);
+var handle_points22 = addYValue([[3.7, 2.77], [4.24, 2.48], [4.21, 2.32], [3.96, 2.15]],0);
+var handle_points23 = addYValue([[3.6, 1.97], [3.74, 2.01], [3.85, 2.08], [3.96, 2.15]],0);
+
+handle_points11 = traslaPointsX(handle_points11, traslate_x);
+handle_points11 = traslaPointsZ(handle_points11, traslate_z);
+handle_points12 = traslaPointsX(handle_points12, traslate_x);
+handle_points12 = traslaPointsZ(handle_points12, traslate_z);
+handle_points13 = traslaPointsX(handle_points13, traslate_x);
+handle_points13 = traslaPointsZ(handle_points13, traslate_z);
+handle_points21 = traslaPointsX(handle_points21, traslate_x);
+handle_points21 = traslaPointsZ(handle_points21, traslate_z);
+handle_points22 = traslaPointsX(handle_points22, traslate_x);
+handle_points22 = traslaPointsZ(handle_points22, traslate_z);
+handle_points23 = traslaPointsX(handle_points23, traslate_x);
+handle_points23 = traslaPointsZ(handle_points23, traslate_z);
+
+var handle_delta_y = 0.2;
+var handle_points11t = traslaPointsY(handle_points11,handle_delta_y);
+var handle_points12t = traslaPointsY(handle_points12,handle_delta_y);
+var handle_points13t = traslaPointsY(handle_points13,handle_delta_y);
+var handle_points21t = traslaPointsY(handle_points21,handle_delta_y);
+var handle_points22t = traslaPointsY(handle_points22,handle_delta_y);
+var handle_points23t = traslaPointsY(handle_points23,handle_delta_y);
+
+var handle_curve11 = BEZIER(S0)(handle_points11)
+var handle_curve12 = BEZIER(S0)(handle_points12)
+var handle_curve13 = BEZIER(S0)(handle_points13)
+var handle_curve21 = BEZIER(S0)(handle_points21)
+var handle_curve22 = BEZIER(S0)(handle_points22)
+var handle_curve23 = BEZIER(S0)(handle_points23)
+var handle_curve11t = BEZIER(S0)(handle_points11t)
+var handle_curve12t = BEZIER(S0)(handle_points12t)
+var handle_curve13t = BEZIER(S0)(handle_points13t)
+var handle_curve21t = BEZIER(S0)(handle_points21t)
+var handle_curve22t = BEZIER(S0)(handle_points22t)
+var handle_curve23t = BEZIER(S0)(handle_points23t)
+
+var handle = STRUCT([ 	unifyBezierCurves(handle_curve11,handle_curve11t),
+						unifyBezierCurves(handle_curve12,handle_curve12t),
+						unifyBezierCurves(handle_curve13,handle_curve13t),
+						unifyBezierCurves(handle_curve21,handle_curve21t),
+						unifyBezierCurves(handle_curve22,handle_curve22t),
+						unifyBezierCurves(handle_curve23,handle_curve23t),						
+						unifyBezierCurves(handle_curve11,handle_curve21),				
+						unifyBezierCurves(handle_curve12,handle_curve22),				
+						unifyBezierCurves(handle_curve13,handle_curve23),						
+						unifyBezierCurves(handle_curve11t,handle_curve21t),				
+						unifyBezierCurves(handle_curve12t,handle_curve22t),				
+						unifyBezierCurves(handle_curve13t,handle_curve23t)
+					 ]);
 
 
-
+draw(handle)
 
 
 var pot = STRUCT([ pot_central,base,top_obj ]);							
