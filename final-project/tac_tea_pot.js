@@ -295,9 +295,6 @@ var beak = STRUCT([ MAP(BEZIER(S1)([ beak_curve3_external,beak_centered3_curve_e
 					]);
 
 
-draw(beak)
-
-
 // Handle
 var handle_points11 = addYValue([[3.73, 2.85], [3.01, 3.21], [3.09, 3.02], [3.02, 2.61]],0);
 var handle_points12 = addYValue([[3.73, 2.85], [4.39, 2.55], [4.31, 2.32], [4.08, 2.08]],0);

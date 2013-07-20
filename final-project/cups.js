@@ -150,13 +150,19 @@ function generateCup(profile,depth,ray){
 	return STRUCT([ internal_part,external_part ]);
 }
 
+var points1 = [[0.93, 0,0.25], [1.09, 0,0.25], [1.28, 0,0.43], [1.4, 0,0.58]];
+var points2 = [[1.63, 0, 0.06], [1.8, 0, 0.14], [1.84, 0, 0.21], [1.88, 0, 0.46]];
+var points3 = [[2.23, 0, 0.23], [2.41, 0, 0.29], [2.54, 0, 0.34], [2.57, 0, 0.51]];
 
+points1 = traslaPointsZ(points1,-0.25)
+points2 = traslaPointsZ(points2,-0.06)
+points3 = traslaPointsZ(points3,-0.23)
 
+var cup1 = generateCup(points1,0.015,0.2)
+var cup2 = generateCup(points2,0.015,0.1)
+var cup3 = generateCup(points3,0.015,0.2)
 
-var cup1 = generateCup([[0.93, 0,0.25], [1.09, 0,0.25], [1.28, 0,0.43], [1.4, 0,0.58]],0.015,0.2)
-var cup2 = generateCup([[1.63, 0, 0.06], [1.8, 0, 0.14], [1.84, 0, 0.21], [1.88, 0, 0.46]],0.015,0.1)
-var cup3 = generateCup([[2.23, 0, 0.23], [2.41, 0, 0.29], [2.54, 0, 0.34], [2.57, 0, 0.51]],0.015,0.2)
-
-var cups = STRUCT([TNC([2])([-0.3]),cup3, TNC([0])([1.5])(cup1), TNC([0,1])([0.7,1])(cup2)])
+var cups = STRUCT([cup3, TNC([0])([1.5])(cup1), TNC([0,1])([0.7,1])(cup2)])
 
 draw(cups)
+

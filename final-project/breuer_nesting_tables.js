@@ -208,7 +208,6 @@ function unitary_tube_generator(width,height){
 	return unione_1;
 }
 
-//da sistemare per il raggio
 function tube_generator(width,height,ray){
 	return RNC([0,1])(-PI/2)(SNC([0,1,2])([ray,ray,ray])(unitary_tube_generator(width/ray,height/ray)));
 }

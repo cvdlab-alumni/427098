@@ -178,7 +178,6 @@ var sc_right_down_c = BEZIER(S0)(sc_right_down_p);
 var sc_right_front_c = BEZIER(S0)(sc_right_front_p);
 var sc_right_up_c = BEZIER(S0)(sc_right_up_p);
 
-//var sc_intermedied_up_p = [[0,0,seat_cushion_z],[0,chassis_y/2,seat_cushion_z+1.3],[0,chassis_y,seat_cushion_z]];
 var sc_intermedied_up_p = [[dimension_x/2,0,seat_cushion_z],[dimension_x/5,chassis_y/2,seat_cushion_z+1.5],[3*dimension_x/5,chassis_y/2,seat_cushion_z+1.5],[dimension_x/2,chassis_y,seat_cushion_z]];
 var sc_intermedied_up_c = BEZIER(S0)(sc_intermedied_up_p);
 
@@ -280,4 +279,4 @@ back_cushion = COLOR(cushion_color)(back_cushion);
 
 var model = STRUCT([back_cushion,chassis,seat_cushion,arm_cushions]);
 
-draw(model);
+draw(model)
