@@ -1,3 +1,127 @@
+var drawable_objects = [];
+
+function draw(obj){
+	drawable_objects.push(obj);
+	DRAW(obj);
+}
+
+
+function hide(obj){
+	drawable_objects = drawable_objects.filter( function(item){
+		return item !== obj;
+	});
+	HIDE(obj);
+}
+
+function hideAll(){
+	while(drawable_objects.length>0)
+		HIDE(drawable_objects.pop());	
+}
+
+function rgb(color){
+	return [color[0]/255, color[1]/255, color[2]/255];
+}
+
+function addYValue(points, y){
+	return points.map(function(item){
+		return [item[0],y,item[1]];
+	});
+}
+
+function circle(r){
+	return DISK(r)([64,2])
+}
+
+function rotateProfileNoTraslate(points){
+	var area_domain = PROD1x1([INTERVALS(1)(128),INTERVALS(1)(128)]);
+	var curve_map = BEZIER(S0)(points);
+	return MAP(PROFILEPROD_SURFACE([curve_map,bezier_circle_map(1,S1)]))(area_domain);
+}
+
+function bezier_circle(r){
+	return MAP(bezier_circle_map(r))(INTERVALS(1)(64));
+}
+
+function bezier_circle_map(r,selector){
+
+	if (selector === undefined)
+		selector = S0
+
+	var base_points = [[-1,0,0],[-1,1.6,0],[1.6,1.6,0],[1.6,0,0],[1.6,-1.6,0],[-1,-1.6,0],[-1,0,0]];
+	var circle_points = scalePoints(base_points,r);
+	return BEZIER(selector)(circle_points)
+}
+
+var scalePoints = function(points,values) {
+	return points.map(function(item){
+		return item.map(function(elem){
+			return elem*values;
+		});
+	});
+}
+
+function traslaPointsX(points,value){
+	return points.map(function(item){
+		return [item[0]+value,item[1],item[2]];
+	});
+}
+
+function traslaPointsY(points,value){
+	return points.map(function(item){
+		return [item[0],item[1]+value,item[2]];
+	});
+}
+function traslaPointsZ(points,value){
+	return points.map(function(item){
+		return [item[0],item[1],item[2]+value];
+	});
+}
+function unifyBezierCurves(map_curve_1,map_curve_2){
+	return MAP(BEZIER(S1)([map_curve_1,map_curve_2]))(PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)]));
+}
+
+function bezier_full_circle_not_centered(r,x_value,y_value,z_value){
+	return MAP(BEZIER(S1)([bezier_circle_not_centered_map(r,x_value,y_value,z_value),[x_value,y_value,z_value]]))(PROD1x1([INTERVALS(1)(64),INTERVALS(1)(64)]));
+}
+function bezier_circle_not_centered_map(r,x_value,y_value,z_value,selector){
+
+	if (selector === undefined)
+		selector = S0
+
+	var base_points = [[-1,0,0],[-1,1.6,0],[1.6,1.6,0],[1.6,0,0],[1.6,-1.6,0],[-1,-1.6,0],[-1,0,0]];
+
+	var circle_points = scalePoints(base_points,r);
+
+	if (x_value !== 0)
+		circle_points = traslaPointsX(circle_points,x_value)
+	if (y_value !== 0)
+		circle_points = traslaPointsY(circle_points,y_value)
+	if (z_value !== 0)
+		circle_points = traslaPointsZ(circle_points,z_value)
+
+	return BEZIER(selector)(circle_points)
+}
+function bezier_full_circle(r){
+	return MAP(BEZIER(S1)([bezier_circle_map(r),[0,0,0]]))(PROD1x1([INTERVALS(1)(64),INTERVALS(1)(64)]));
+}
+var scalePointsX = function(points,values) {
+	return points.map(function(item){
+		return [item[0]*values,item[1],item[2]];
+	});
+}
+
+var scalePointsY = function(points,values) {
+	return points.map(function(item){
+		return [item[0],item[1]*values,item[2]];
+	});
+}
+
+var scalePointsZ = function(points,values) {
+	return points.map(function(item){
+		return [item[0],item[1],item[2]*values];
+	});
+}
+
 var line_domain = INTERVALS(1)(32)
 var area_domain = PROD1x1([INTERVALS(1)(32),INTERVALS(1)(32)])
 
@@ -294,3 +418,6 @@ var pot = STRUCT([ COLOR(pot_color)(pot),
 
 draw(pot)
 
+function drawBezier(points){
+	draw(MAP(BEZIER(S0)(points))(INTERVALS(1)(32)))
+}
